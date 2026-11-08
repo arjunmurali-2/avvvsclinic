@@ -53,7 +53,7 @@ export const CLINICS: Clinic[] = [
       { h: 'Sinus headache', p: 'Pain and pressure around the forehead, eyes and cheeks.' },
     ],
     therapies: ['shirodhara', 'abhyanga'],
-    image: { src: '/media/k06.jpg', alt: 'Palm-leaf manuscripts beside a lit brass lamp', position: '60% 50%' },
+    image: { src: '/photos/headache.jpg', alt: 'A woman pressing her fingertips to her temple', position: '45% 40%' },
     faq: [
       { q: 'Which headaches does the Headache Clinic see?', a: 'The clinic sees persistent headaches, including migraine, tension, cluster and sinus headaches. Care is personalised after a consultation.' },
       { q: 'When should a headache be seen in an emergency instead?', a: 'Seek emergency care at once for a sudden, severe headache unlike any before, or a headache with fever and a stiff neck, confusion, weakness, numbness, loss of vision, or one that follows a head injury.' },
@@ -67,10 +67,10 @@ export const CLINICS: Clinic[] = [
     label: 'Pain management',
     kicker: 'Speciality clinic',
     title: 'Back to living more comfortably',
-    short: 'The AVVVS Pain Management Clinic in Kozhikode combines Ayurvedic therapies with modern medical care under Dr. Ranjith Kumar (BAMS, MBBS, MD, DA), with personalised plans for chronic pain and mobility.',
+    short: 'The AVVVS Pain Management Clinic in Kozhikode combines Ayurvedic therapies with modern medical care under Dr. Ranjith Kumar (BAMS, MBBS, DA, MD), with personalised plans for chronic pain and mobility.',
     lede: 'Living with pain can make even the simplest everyday activities difficult, keeping you from doing the things you love.',
     body: [
-      'AVVVS Ayur Speciality Clinic offers an integrated approach to pain management, combining Ayurvedic therapies with modern medical care under the guidance of Dr. Ranjith Kumar (BAMS, MBBS, MD, DA).',
+      'AVVVS Ayur Speciality Clinic offers an integrated approach to pain management, combining Ayurvedic therapies with modern medical care under the guidance of Dr. Ranjith Kumar (BAMS, MBBS, DA, MD).',
       'Through personalised treatment plans, we help you manage pain, improve mobility and get back to living life more comfortably.',
     ],
     focus: [
@@ -79,68 +79,43 @@ export const CLINICS: Clinic[] = [
       { h: 'Mobility', p: 'Care aimed at moving more freely and getting back to everyday activities.' },
     ],
     therapies: ['elakizhi', 'njavarakizhi', 'pizhichil', 'abhyanga'],
-    image: { src: '/media/k03.jpg', alt: 'A hand holding a medicinal leaf in the forest', position: '70% 50%' },
-    lead: 'Under the guidance of Dr. Ranjith Kumar, BAMS, MBBS, MD, DA',
+    image: { src: '/photos/pulse.jpg', alt: 'A doctor reading a patient’s pulse at the wrist', position: '55% 50%' },
+    lead: 'Under the guidance of Dr. Ranjith Kumar, BAMS, MBBS, DA, MD',
     faq: [
-      { q: 'Who leads the Pain Management Clinic?', a: 'The Pain Management Clinic is guided by Dr. Ranjith Kumar (BAMS, MBBS, MD, DA), who is qualified in both Ayurveda and modern medicine.' },
+      { q: 'Who leads the Pain Management Clinic?', a: 'The Pain Management Clinic is guided by Dr. Ranjith Kumar (BAMS, MBBS, DA, MD), who is qualified in both Ayurveda and modern medicine.' },
       { q: 'What does an integrated approach to pain mean here?', a: 'Ayurvedic therapies are combined with modern medical care, in a personalised treatment plan for managing pain and improving mobility.' },
       consult, book,
     ],
   },
   {
-    slug: 'obesity-management-clinic',
+    slug: 'obesity-lifestyle-clinic',
     no: '03',
-    name: 'Obesity Management Clinic',
-    label: 'Obesity management',
+    name: 'Obesity and Lifestyle Management Clinic',
+    label: 'Obesity and lifestyle',
     kicker: 'Speciality clinic',
-    title: 'More than a number on the scale',
-    short: 'The AVVVS Obesity Management Clinic in Kozhikode combines the Ayurvedic therapy Udwarthana with modern body-contouring technologies, dietary guidance and exercise to support healthy weight management.',
-    lede: 'Obesity is more than a change in body weight; it can affect your overall health, mobility and quality of life.',
+    title: 'Care that fits the way you live now',
+    short: 'The AVVVS Obesity and Lifestyle Management Clinic in Kozhikode supports healthy weight and the management of metabolic and lifestyle disorders, combining Ayurvedic therapies such as Udwarthana with modern body-contouring technologies, dietary guidance, exercise and lifestyle modification.',
+    lede: 'Changing lifestyles, work patterns and dietary habits can contribute to weight gain and metabolic disorders, affecting your overall health, mobility and quality of life.',
     body: [
-      'AVVVS Ayur Speciality Clinic combines traditional Ayurvedic therapies such as Udwarthana with modern body-contouring technologies, dietary guidance and exercise.',
-      'Together they support healthy weight management, improve metabolic health and promote overall well-being.',
+      'Obesity is more than a change in body weight. AVVVS Ayur Speciality Clinic combines traditional Ayurvedic therapies such as Udwarthana with modern body-contouring technologies, dietary guidance and exercise.',
+      'For lifestyle and metabolic disorders, personalised Ayurvedic treatments, dietary guidance and lifestyle modifications help you manage these conditions, promoting better health and overall well-being.',
     ],
     focus: [
-      { h: 'Udwarthana', p: 'The traditional dry herbal-powder massage, given by trained therapists.' },
-      { h: 'Body contouring', p: 'Modern body-contouring technologies, alongside the Ayurvedic therapies.' },
+      { h: 'Udwarthana and body contouring', p: 'The traditional dry herbal-powder massage, alongside modern body-contouring technologies.' },
       { h: 'Diet and exercise', p: 'Dietary guidance and exercise that fit the life you actually lead.' },
+      { h: 'Lifestyle modification', p: 'Sleep, movement and routine, changed a step at a time.' },
     ],
     therapies: ['udwarthana', 'abhyanga'],
-    image: { src: '/media/k02.jpg', alt: 'A tulsi plant in a shaft of forest light', position: '55% 50%' },
+    image: { src: '/photos/lifestyle.jpg', alt: 'A person working at a desk at home', position: '40% 50%' },
     faq: [
-      { q: 'What does the Obesity Management Clinic offer?', a: 'Traditional Ayurvedic therapies such as Udwarthana, modern body-contouring technologies, dietary guidance and exercise, combined to support healthy weight management and metabolic health.' },
+      { q: 'What does the Obesity and Lifestyle Management Clinic offer?', a: 'Ayurvedic therapies such as Udwarthana, modern body-contouring technologies, dietary guidance, exercise and lifestyle modification, combined to support healthy weight management and to help manage metabolic and lifestyle disorders.' },
       { q: 'What is Udwarthana?', a: 'Udwarthana is a traditional Ayurvedic massage with dry herbal powders, given with firm upward strokes. Your doctor decides whether it suits you.' },
       consult, book,
     ],
   },
   {
-    slug: 'lifestyle-diseases-clinic',
-    no: '04',
-    name: 'Lifestyle Diseases Clinic',
-    label: 'Lifestyle diseases',
-    kicker: 'Speciality clinic',
-    title: 'Care that fits the way you live now',
-    short: 'The AVVVS Lifestyle Diseases Clinic in Kozhikode helps people manage metabolic and lifestyle disorders through personalised Ayurvedic treatment, dietary guidance and lifestyle modification.',
-    lede: 'Changing lifestyles, work patterns and dietary habits can contribute to metabolic disorders.',
-    body: [
-      'AVVVS Ayur Speciality Clinic helps you manage these conditions through personalised Ayurvedic treatments, dietary guidance and lifestyle modifications.',
-      'The aim is better health and overall well-being, worked out around your day.',
-    ],
-    focus: [
-      { h: 'Personalised treatment', p: 'Ayurvedic treatment chosen for you after a consultation.' },
-      { h: 'Dietary guidance', p: 'What to eat, and when, in terms that work in a Kerala kitchen and an office canteen.' },
-      { h: 'Lifestyle modification', p: 'Sleep, movement and routine, changed a step at a time.' },
-    ],
-    therapies: ['abhyanga', 'udwarthana'],
-    image: { src: '/media/k01.jpg', alt: 'Morning light in a Western Ghats forest', position: '50% 50%' },
-    faq: [
-      { q: 'What does the Lifestyle Diseases Clinic help with?', a: 'Metabolic disorders linked to changing lifestyles, work patterns and dietary habits, managed through personalised Ayurvedic treatment, dietary guidance and lifestyle modification.' },
-      consult, book,
-    ],
-  },
-  {
     slug: 'infertility-clinic',
-    no: '05',
+    no: '04',
     name: 'Male and Female Infertility Clinic',
     label: 'Infertility',
     kicker: 'Speciality clinic',
@@ -157,7 +132,7 @@ export const CLINICS: Clinic[] = [
       { h: 'Holistic', p: 'Reproductive well-being considered alongside diet, rest and the whole of daily life.' },
     ],
     therapies: ['abhyanga'],
-    image: { src: '/media/k04.jpg', alt: 'A single leaf held up to warm light', position: '35% 50%' },
+    image: { src: '/photos/infertility.jpg', alt: 'A doctor’s hands cradling a pair of knitted baby shoes held by a woman', position: '55% 50%' },
     faq: [
       { q: 'Does the clinic see both partners?', a: 'Yes. The clinic offers personalised Ayurvedic care for both male and female reproductive health.' },
       { q: 'Can I continue fertility treatment elsewhere while I consult here?', a: 'Tell the clinic about any fertility treatment and medicines you are on. Do not stop or change prescribed treatment without the advice of the doctor managing it.' },
@@ -166,7 +141,7 @@ export const CLINICS: Clinic[] = [
   },
   {
     slug: 'pregnancy-postnatal-care-clinic',
-    no: '06',
+    no: '05',
     name: 'Pregnancy and Postnatal Care Clinic',
     label: 'Pregnancy and postnatal',
     kicker: 'Speciality clinic',
@@ -183,7 +158,7 @@ export const CLINICS: Clinic[] = [
       { h: 'Every stage', p: 'Care that changes as your needs change, month by month.' },
     ],
     therapies: ['abhyanga'],
-    image: { src: '/media/k08.jpg', alt: 'Ripples spreading across warm oil', position: '50% 50%' },
+    image: { src: '/photos/mother.jpg', alt: 'An expectant mother resting her hands on her belly', position: '50% 40%' },
     faq: [
       { q: 'Does Ayurvedic pregnancy care replace my obstetrician?', a: 'No. Ayurvedic pregnancy care at the clinic is given alongside your regular antenatal care. Keep all your obstetric appointments and tell both doctors about every medicine you take.' },
       { q: 'What does postnatal care at the clinic include?', a: 'Personalised Ayurvedic postnatal care, with dietary guidance and supportive therapies chosen for the mother after a consultation.' },
@@ -192,7 +167,7 @@ export const CLINICS: Clinic[] = [
   },
 ];
 
-export const LIFESTYLE_NOTE = 'Speciality care for headaches, chronic pain, obesity, lifestyle disorders, reproductive health, skin and hair, and pregnancy and postnatal care.';
+export const LIFESTYLE_NOTE = 'Speciality care for headaches, chronic pain, obesity and lifestyle disorders, reproductive health, skin and hair, and pregnancy and postnatal care.';
 
 export const clinicBySlug = (slug: string) => CLINICS.find((c) => c.slug === slug);
 
@@ -208,4 +183,5 @@ export const REVIVE = {
     'Combining traditional Ayurvedic formulations with modern skin and hair care technologies, we offer specialised solutions for a wide range of skin and hair concerns, making us your destination for healthy skin, beautiful hair, wellness and longevity.',
   ],
   pillars: ['Healthy skin', 'Beautiful hair', 'Wellness', 'Longevity'],
+  therapies: ['abhyanga', 'shirodhara'],
 };

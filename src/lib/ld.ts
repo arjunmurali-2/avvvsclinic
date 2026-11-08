@@ -1,4 +1,4 @@
-import { CLINIC, DOCTOR, FOUNDED, PARENT_URL, SITE_URL, abs } from './site';
+import { CLINIC, DOCTOR, DOCTORS, FOUNDED, PARENT_URL, SITE_URL, abs } from './site';
 import { CLINICS, REVIVE, type QA } from './clinics';
 import { THERAPIES } from './therapies';
 import type { Post } from './journal';
@@ -6,7 +6,7 @@ import type { Post } from './journal';
 // Schema.org structured data. One MedicalClinic entity (#clinic) that every page points back to,
 // a Physician, and per-page BreadcrumbList, FAQPage, MedicalWebPage and BlogPosting.
 
-const ID = { clinic: `${SITE_URL}/#clinic`, site: `${SITE_URL}/#website`, parent: `${PARENT_URL}/#organization`, doctor: `${SITE_URL}/#ranjith-kumar` };
+const ID = { clinic: `${SITE_URL}/#clinic`, site: `${SITE_URL}/#website`, parent: `${PARENT_URL}/#organization` };
 const phones = CLINIC.phones.map((p) => p.replace(/\s/g, ''));
 
 const address = {
@@ -40,7 +40,7 @@ export function clinicLd() {
       { '@type': 'MedicalTherapy', name: `${REVIVE.name} (${REVIVE.kicker})`, description: REVIVE.short, url: abs(`/clinics/${REVIVE.slug}`) },
       ...THERAPIES.map((t) => ({ '@type': 'MedicalTherapy', name: t.name, alternateName: t.ml, description: t.what, url: abs(`/therapies#${t.slug}`) })),
     ],
-    employee: { '@id': ID.doctor },
+    employee: DOCTORS.map((d) => ({ '@id': `${SITE_URL}/doctors#${d.slug}` })),
     parentOrganization: { '@type': 'Organization', '@id': ID.parent, name: CLINIC.legal, url: PARENT_URL, foundingDate: String(FOUNDED) },
     sameAs: CLINIC.social.map((s) => s.href),
     potentialAction: { '@type': 'ReserveAction', target: { '@type': 'EntryPoint', urlTemplate: abs('/book'), actionPlatform: ['https://schema.org/DesktopWebPlatform', 'https://schema.org/MobileWebPlatform'] }, name: 'Book a consultation' },
@@ -50,11 +50,13 @@ export function clinicLd() {
 
 export function doctorLd() {
   return {
-    '@context': 'https://schema.org', '@type': 'Physician', '@id': ID.doctor,
-    name: DOCTOR.name, honorificSuffix: DOCTOR.qualifications.join(', '),
-    hasCredential: DOCTOR.qualifications.map((q) => ({ '@type': 'EducationalOccupationalCredential', credentialCategory: 'degree', name: q })),
-    worksFor: { '@id': ID.clinic }, address,
-    description: `${DOCTOR.name} (${DOCTOR.qualifications.join(', ')}) guides the Pain Management Clinic at ${CLINIC.name}, combining Ayurvedic therapies with modern medical care.`,
+    '@context': 'https://schema.org',
+    '@graph': DOCTORS.map((d) => ({
+      '@type': 'Physician', '@id': `${SITE_URL}/doctors#${d.slug}`, name: d.name, honorificSuffix: d.quals.join(', '),
+      image: abs(`/doctors/${d.slug}.jpg`), jobTitle: d.role, worksFor: { '@id': ID.clinic }, address,
+      hasCredential: d.quals.map((q) => ({ '@type': 'EducationalOccupationalCredential', credentialCategory: 'degree', name: q })),
+      ...(d.slug === 'ranjith-kumar' ? { description: `${DOCTOR.name} guides the Pain Management Clinic at ${CLINIC.name}, combining Ayurvedic therapies with modern medical care.` } : {}),
+    })),
   };
 }
 

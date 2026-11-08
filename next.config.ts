@@ -11,7 +11,10 @@ export default function config(phase: string): NextConfig {
   return {
     env: { NEXT_PUBLIC_SITE_URL: SITE_URL, NEXT_PUBLIC_DEPLOY_ENV: process.env.VERCEL_ENV || 'local' },
     reactStrictMode: true,
-    images: { formats: ['image/avif', 'image/webp'] },
+    // admin uploads live in Vercel Blob
+    images: { formats: ['image/avif', 'image/webp'], remotePatterns: [{ protocol: 'https', hostname: '*.public.blob.vercel-storage.com' }] },
+    // PGlite (the local admin database) ships its own WebAssembly; keep it out of the server bundle
+    serverExternalPackages: ['@electric-sql/pglite'],
     experimental: { inlineCss: true },
     // the dev server writes elsewhere, so a production build can run beside it
     distDir: phase === PHASE_DEVELOPMENT_SERVER ? '.next-dev' : '.next',
@@ -23,6 +26,9 @@ export default function config(phase: string): NextConfig {
         { source: '/blog', destination: '/journal', permanent: true },
         { source: '/contact', destination: '/visit', permanent: true },
         { source: '/appointment', destination: '/book', permanent: true },
+        // the obesity and lifestyle clinics became one (2026-11-08)
+        { source: '/clinics/obesity-management-clinic', destination: '/clinics/obesity-lifestyle-clinic', permanent: true },
+        { source: '/clinics/lifestyle-diseases-clinic', destination: '/clinics/obesity-lifestyle-clinic', permanent: true },
       ];
     },
   };

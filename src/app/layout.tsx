@@ -1,15 +1,11 @@
 import type { Metadata, Viewport } from 'next';
-import { Gloock, Manjari } from 'next/font/google';
+import { Manjari } from 'next/font/google';
 import './globals.css';
-import { Header } from '@/components/Header';
-import { Footer } from '@/components/Footer';
-import { ANIM_BOOT, Motion } from '@/components/Motion';
-import { JsonLd } from '@/components/Parts';
-import { clinicLd, doctorLd, websiteLd } from '@/lib/ld';
+import { ANIM_BOOT } from '@/components/Motion';
 import { CLINIC, INDEXABLE, SITE_URL } from '@/lib/site';
 
-const gloock = Gloock({ weight: '400', subsets: ['latin'], variable: '--font-gloock', display: 'swap' });
-const manjari = Manjari({ weight: ['100', '400', '700'], subsets: ['latin', 'malayalam'], variable: '--font-manjari', display: 'swap' });
+// Malayalam words (therapy names, the family name) are set in Manjari; Latin headlines in CastleT.
+const manjari = Manjari({ weight: ['400'], subsets: ['malayalam'], variable: '--font-manjari', display: 'swap' });
 
 const TITLE = 'AVVVS Ayur Speciality Clinic, Kozhikode · Kerala Ayurveda & Panchakarma';
 
@@ -35,25 +31,17 @@ export const metadata: Metadata = {
   other: { 'geo.region': 'IN-KL', 'geo.placename': 'Kozhikode, Kerala' },
 };
 
-export const viewport: Viewport = { width: 'device-width', initialScale: 1, viewportFit: 'cover', colorScheme: 'light', themeColor: '#F4EFE5' };
+export const viewport: Viewport = { width: 'device-width', initialScale: 1, viewportFit: 'cover', colorScheme: 'light', themeColor: '#FFFFFF' };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-IN" className={`${gloock.variable} ${manjari.variable}`} suppressHydrationWarning>
+    <html lang="en-IN" className={manjari.variable} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: ANIM_BOOT }} />
+        <link rel="preload" href="/fonts/CastleT.woff" as="font" type="font/woff" crossOrigin="anonymous" />
         <link rel="alternate" type="text/plain" href="/llms.txt" title="llms.txt" />
       </head>
-      <body suppressHydrationWarning>
-        <a className="skip" href="#main">Skip to content</a>
-        <Header />
-        <Motion />
-        {children}
-        <Footer />
-        <JsonLd data={clinicLd()} />
-        <JsonLd data={doctorLd()} />
-        <JsonLd data={websiteLd()} />
-      </body>
+      <body suppressHydrationWarning>{children}</body>
     </html>
   );
 }

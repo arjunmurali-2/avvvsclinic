@@ -26,6 +26,20 @@ npm run build && npm start
 Content lives in `src/lib/` (`site.ts` facts, `clinics.ts`, `therapies.ts`, `journal.ts`, `faq.ts`).
 Change a phone number in `site.ts` and every page, the JSON-LD and llms.txt follow.
 
+## Admin (/admin)
+
+Named accounts add **treatments** (name, Malayalam name, description, photograph, the clinics that offer
+it) and write **Journal articles** (blocks, cover, short answer, the clinic and treatments they are about).
+Published work appears on the therapies page, each linked clinic, the Journal, the sitemap and llms.txt
+within five minutes. The built-in therapies and articles stay in code; the admin adds to them.
+
+- Production: add **Neon** (`DATABASE_URL`) and **Blob** (`BLOB_READ_WRITE_TOKEN`) to the Vercel project,
+  set `ADMIN_SETUP_KEY`, deploy, then create the first admin at `/admin/setup`. The clinic's tables are all
+  `clinic_…`, so it can share the avvvs.com Neon database.
+- Development: with no `DATABASE_URL`, the admin runs on PGlite in `.data/` and uploads go to
+  `public/uploads/` (both git-ignored); `/admin/setup` needs no key.
+- Roles: editors manage treatments and articles; admins also manage accounts.
+
 ## Booking
 
 `/api/book` validates the request and emails it by SMTP to `MAIL_TO`

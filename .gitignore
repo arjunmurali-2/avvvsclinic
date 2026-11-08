@@ -8,3 +8,7 @@ out/
 .env.*.local
 .DS_Store
 Thumbs.db
+
+# local admin database (PGlite) and local uploads
+.data/
+public/uploads/

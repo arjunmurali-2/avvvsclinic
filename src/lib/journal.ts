@@ -13,7 +13,8 @@ export type Block =
   | { t: 'ul'; items: string[] }
   | { t: 'ol'; items: { h: string; p: string }[] }
   | { t: 'note'; h: string; text: string }
-  | { t: 'quote'; text: string };
+  | { t: 'quote'; text: string }
+  | { t: 'img'; url: string; alt: string; caption?: string };
 
 export interface Post {
   slug: string;
@@ -29,6 +30,10 @@ export interface Post {
   blocks: Block[];
   faq?: QA[];
   clinic?: string;
+  /** therapies this article is about (slugs) */
+  treatments?: string[];
+  /** written in the admin rather than built into the site */
+  fromAdmin?: boolean;
 }
 
 export const POSTS: Post[] = [
@@ -40,7 +45,7 @@ export const POSTS: Post[] = [
     minutes: 5,
     published: '2026-11-08',
     revised: '2026-11-08',
-    cover: { src: '/media/k06.jpg', alt: 'Palm-leaf manuscripts beside a lit brass lamp', position: '62% 50%' },
+    cover: { src: '/photos/pulse.jpg', alt: 'A doctor reading a patient’s pulse at the wrist', position: '55% 50%' },
     answer: 'A first Ayurveda consultation is an unhurried conversation and examination. The doctor asks about your concern, your health history, diet, digestion, sleep and routine, examines you, and then explains a personalised plan, which may include medicines, therapies, diet and lifestyle changes.',
     blocks: [
       { t: 'p', text: 'Ayurveda looks at the person before the complaint. That is why the first visit to AVVVS Ayur Speciality Clinic takes longer than a quick prescription, and why the questions reach well past the reason you came.' },
@@ -72,10 +77,11 @@ export const POSTS: Post[] = [
     title: 'Pizhichil, Shirodhara, Elakizhi: Kerala’s classical therapies, explained',
     dek: 'What each of the clinic’s six therapies actually involves, from the oil to the hands that give it.',
     kind: 'Therapies',
+    treatments: ['pizhichil', 'shirodhara', 'abhyanga', 'elakizhi', 'njavarakizhi', 'udwarthana'],
     minutes: 6,
     published: '2026-11-08',
     revised: '2026-11-08',
-    cover: { src: '/media/k09.jpg', alt: 'Warm medicated oil in a bronze vessel', position: '50% 50%' },
+    cover: { src: '/photos/elakizhi.jpg', alt: 'Herbal leaf poultices warming in a brass pan', position: '50% 50%' },
     answer: 'Kerala’s classical Ayurvedic therapies are hands-on treatments with warm medicated oils, herbal poultices and powders. At AVVVS Ayur Speciality Clinic they include Pizhichil, Shirodhara, Abhyanga, Elakizhi, Njavarakizhi and Udwarthana, each chosen by the doctor after a consultation.',
     blocks: [
       { t: 'p', text: 'Kerala gave Ayurveda some of its most distinctive treatments: therapies built around warm oil, medicinal leaves and rice, and the trained hands of therapists working in rhythm. They are given at AVVVS Ayur Speciality Clinic with oils and preparations from a pharmacy that has made Ayurveda medicines in Kozhikode since 1921.' },
@@ -101,7 +107,7 @@ export const POSTS: Post[] = [
     minutes: 5,
     published: '2026-11-08',
     revised: '2026-11-08',
-    cover: { src: '/media/k10.jpg', alt: 'Medicated oil filtered through cloth into a bottle', position: '50% 40%' },
+    cover: { src: '/photos/shirodhara.jpg', alt: 'Shirodhara, warm oil streaming onto the forehead', position: '30% 50%' },
     answer: 'Most recurring headaches are migraine, tension, cluster or sinus headaches. A sudden, severe headache, or one with fever and a stiff neck, weakness, confusion or loss of vision, needs emergency care first. For persistent headaches, the AVVVS Headache Clinic offers personalised Ayurvedic care.',
     blocks: [
       { t: 'note', h: 'First, the warning signs', text: 'Go to an emergency department at once for a sudden, severe headache unlike any before; a headache with fever and a stiff neck; with confusion, weakness, numbness or difficulty speaking; with loss of vision; or after a head injury.' },
@@ -132,7 +138,7 @@ export const POSTS: Post[] = [
     minutes: 3,
     published: '2026-11-08',
     revised: '2026-11-08',
-    cover: { src: '/media/k00.jpg', alt: 'Morning mist over the hills of Kerala', position: '50% 60%' },
+    cover: { src: '/photos/herbs.jpg', alt: 'Kerala herbs on linen', position: '50% 50%' },
     answer: 'AVVVS Ayur Speciality Clinic is on the 3rd floor of Kaloor Central, Annie Hall Road, directly opposite Kozhikode Railway Station, Kozhikode 673002. Call +91 99469 29448 or +91 80892 02092 for directions.',
     blocks: [
       { t: 'p', text: 'The clinic sits in the heart of Kozhikode, across the road from the railway station, which makes it one of the easiest Ayurveda clinics in the city to reach by train, bus or taxi.' },

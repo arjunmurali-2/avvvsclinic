@@ -30,8 +30,9 @@ export const CLINIC = {
   },
   landmark: 'Opposite Kozhikode Railway Station',
   maps: 'https://www.google.com/maps/search/?api=1&query=Kaloor+Central+Annie+Hall+Road+Kozhikode+673002',
+  pharmacy: 'https://shop.avvvs.com/',
   description:
-    'AVVVS Ayur Speciality Clinic in Kozhikode, Kerala, opposite the railway station, brings over a century of authentic Ayurvedic wisdom from Arya Vaidya Vilasini Vaidya Sala (founded 1921) to personalised care: speciality clinics for headache, pain management, obesity, lifestyle diseases, male and female infertility, and pregnancy and postnatal care, with authentic Kerala Panchakarma therapies and the Gloveda Revive Ayur-Medi Cosmetic Clinic for skin and hair.',
+    'AVVVS Ayur Speciality Clinic in Kozhikode, Kerala, opposite the railway station, brings over a century of authentic Ayurvedic wisdom from Arya Vaidya Vilasini Vaidya Sala (founded 1921) to personalised care: speciality clinics for headache, pain management, obesity and lifestyle management, male and female infertility, and pregnancy and postnatal care, with authentic Kerala Panchakarma therapies and the Gloveda Revive Ayur-Medi Cosmetic Clinic for skin and hair.',
   social: [
     { label: 'Facebook', href: 'https://www.facebook.com/aryavaidyavilasini' },
     { label: 'Instagram', href: 'https://www.instagram.com/avvvsglobal/' },
@@ -43,6 +44,16 @@ export const tel = (p: string) => `tel:${p.replace(/\s/g, '')}`;
 
 export const DOCTOR = {
   name: 'Dr. Ranjith Kumar',
-  qualifications: ['BAMS', 'MBBS', 'MD', 'DA'],
+  qualifications: ['BAMS', 'MBBS', 'DA', 'MD'],
   role: 'Pain Management Clinic',
 };
+
+/** The clinic's doctors, as the clinic listed them (2026-11-08). Roles only where the clinic has stated one. */
+export const DOCTORS = [
+  { slug: 'manoj-kaloor', name: 'Dr. Manoj Kaloor', quals: ['BAMS', 'MD (Ayu)'], role: 'Managing Director, AVVVS' },
+  { slug: 'reeja-manoj', name: 'Dr. Reeja Manoj', quals: ['BAMS', 'FMC'] },
+  { slug: 'henna-kunhabdhulla', name: 'Dr. Henna Kunhabdhulla', quals: ['BAMS', 'FMC'] },
+  { slug: 'ranjith-kumar', name: 'Dr. Ranjith Kumar', quals: ['BAMS', 'MBBS', 'DA', 'MD'], role: 'Pain Management Clinic' },
+  { slug: 'rekha-deepak', name: 'Dr. Rekha Deepak', quals: ['BAMS'] },
+  { slug: 'archana-manoj', name: 'Dr. Archana Manoj', quals: ['BAMS', 'PGDAC'] },
+] as { slug: string; name: string; quals: string[]; role?: string }[];

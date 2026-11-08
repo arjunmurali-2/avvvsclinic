@@ -9,7 +9,7 @@ export const HOME_FAQ: QA[] = [
   },
   {
     q: 'What does AVVVS Ayur Speciality Clinic treat?',
-    a: 'The clinic offers specialised Ayurvedic care for headaches, chronic pain, obesity, lifestyle disorders, male and female infertility, skin and hair conditions, and pregnancy and postnatal care, with personalised treatment plans.',
+    a: 'The clinic offers specialised Ayurvedic care for headaches, chronic pain, obesity and lifestyle disorders, male and female infertility, skin and hair conditions, and pregnancy and postnatal care, with personalised treatment plans.',
   },
   {
     q: 'Which Kerala Panchakarma therapies are available?',
@@ -21,7 +21,7 @@ export const HOME_FAQ: QA[] = [
   },
   {
     q: 'Does the clinic combine Ayurveda with modern medicine?',
-    a: 'Yes, where it helps. The Pain Management Clinic combines Ayurvedic therapies with modern medical care under Dr. Ranjith Kumar (BAMS, MBBS, MD, DA), and the Obesity Management Clinic uses modern body-contouring technologies alongside Udwarthana.',
+    a: 'Yes, where it helps. The Pain Management Clinic combines Ayurvedic therapies with modern medical care under Dr. Ranjith Kumar (BAMS, MBBS, DA, MD), and the Obesity and Lifestyle Management Clinic uses modern body-contouring technologies alongside Udwarthana.',
   },
   {
     q: 'How do I book a consultation?',

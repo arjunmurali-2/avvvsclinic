@@ -11,10 +11,10 @@ const dataUrl = (p: string, type: string) => `data:${type};base64,${readFileSync
 export function ogImage({ still, kicker, title }: { still: string; kicker: string; title: string }) {
   return new ImageResponse(
     (
-      <div style={{ width: '100%', height: '100%', display: 'flex', position: 'relative', background: '#F4EFE5' }}>
-        <div style={{ position: 'absolute', right: 64, top: 48, width: 400, height: 534, display: 'flex', overflow: 'hidden', borderRadius: '200px 200px 18px 18px', border: '2px solid #C3A46A' }}>
+      <div style={{ width: '100%', height: '100%', display: 'flex', position: 'relative', background: '#FFFFFF' }}>
+        <div style={{ position: 'absolute', right: 64, top: 48, width: 400, height: 534, display: 'flex', overflow: 'hidden', borderRadius: 28 }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={dataUrl(still, 'image/jpeg')} width={950} height={534} alt="" style={{ position: 'absolute', left: -275, top: 0, width: 950, height: 534 }} />
+          <img src={dataUrl(still, 'image/jpeg')} width={400} height={534} alt="" style={{ width: 400, height: 534, objectFit: 'cover' }} />
         </div>
         <div style={{ position: 'absolute', left: 64, top: 56, display: 'flex' }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -22,12 +22,11 @@ export function ogImage({ still, kicker, title }: { still: string; kicker: strin
         </div>
         <div style={{ position: 'absolute', left: 64, width: 620, bottom: 64, display: 'flex', flexDirection: 'column' }}>
           <div style={{ display: 'flex', fontSize: 22, letterSpacing: 4, textTransform: 'uppercase', color: '#06619B', marginBottom: 18 }}>{kicker}</div>
-          <div style={{ display: 'flex', fontSize: 58, lineHeight: 1.06, color: '#1E140E', fontWeight: 600 }}>{title}</div>
-          <div style={{ display: 'flex', width: 120, height: 3, background: '#C3A46A', marginTop: 28 }} />
-          <div style={{ display: 'flex', fontSize: 22, color: '#6B5A48', marginTop: 18 }}>Opposite Kozhikode Railway Station · clinic.avvvs.com</div>
+          <div style={{ display: 'flex', fontFamily: 'CastleT', fontSize: 64, lineHeight: 1.05, color: '#1D1D1F', letterSpacing: -1 }}>{title}</div>
+                    <div style={{ display: 'flex', fontSize: 22, color: '#6E6E73', marginTop: 24 }}>Opposite Kozhikode Railway Station · clinic.avvvs.com</div>
         </div>
       </div>
     ),
-    OG_SIZE,
+    { ...OG_SIZE, fonts: [{ name: 'CastleT', data: readFileSync(pub('fonts/CastleT.woff')), weight: 400, style: 'normal' }] },
   );
 }

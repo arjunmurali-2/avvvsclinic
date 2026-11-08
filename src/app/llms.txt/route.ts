@@ -1,14 +1,14 @@
 import { CLINICS, REVIVE } from '@/lib/clinics';
 import { HOME_FAQ } from '@/lib/faq';
-import { POSTS } from '@/lib/journal';
-import { CLINIC, DOCTOR, FOUNDED, PARENT_URL, abs } from '@/lib/site';
-import { THERAPIES } from '@/lib/therapies';
+import { getPosts, getTherapies } from '@/lib/content';
+import { CLINIC, DOCTOR, DOCTORS, FOUNDED, PARENT_URL, abs } from '@/lib/site';
 
 // llms.txt (llmstxt.org): a plain summary of the clinic for AI answer engines, built from the same
 // facts as the pages, so the two can never disagree.
-export const dynamic = 'force-static';
+export const revalidate = 3600;
 
-export function GET() {
+export async function GET() {
+  const [THERAPIES, POSTS] = await Promise.all([getTherapies(), getPosts()]);
   const text = `# ${CLINIC.name}
 
 > ${CLINIC.description}
@@ -23,6 +23,9 @@ Part of ${CLINIC.legal} (AVVVS, ${CLINIC.malayalam}), an Ayurveda institution fo
 - Email: ${CLINIC.email}
 - Book a consultation: ${abs('/book')} (the clinic calls back to confirm a time)
 - Pain Management Clinic guided by ${DOCTOR.name} (${DOCTOR.qualifications.join(', ')})
+
+## Doctors
+${DOCTORS.map((d) => `- ${d.name} (${d.quals.join(', ')})${d.role ? `: ${d.role}` : ''}`).join('\n')}
 
 ## Speciality clinics
 ${CLINICS.map((c) => `- [${c.name}](${abs(`/clinics/${c.slug}`)}): ${c.short}`).join('\n')}
