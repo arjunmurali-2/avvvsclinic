@@ -8,7 +8,7 @@ import { sql, ensureSchema } from '@/lib/db';
 import {
   createSession, endSession, hashPassword, verifyPassword, passwordProblem, requireUser, requireAdmin, tooManyAttempts, userCount,
 } from '@/lib/auth';
-import { CLINIC_SLUGS, POST_KINDS, builtInPostSlugs, builtInTherapySlugs, cleanBlocks, safeImage } from '@/lib/content';
+import { CLINIC_SLUGS, POST_KINDS, builtInClinics, builtInPostSlugs, builtInTherapySlugs, cleanBlocks, safeImage } from '@/lib/content';
 import { slugify } from '@/lib/claims';
 
 export interface FormState { error?: string; ok?: string }
@@ -172,6 +172,111 @@ export async function deleteTreatment(id: number) {
   }
   refreshSite();
   redirect('/admin/treatments');
+}
+
+// ---------- clinics: which therapies each one recommends ----------
+
+/**
+ * Sets the full list of therapies shown under one clinic. Built-in therapies keep their links in
+ * clinic_builtin_links; treatments added in the admin keep theirs on the treatment itself.
+ */
+export async function setClinicTherapies(clinic: string, selected: string[]): Promise<FormState> {
+  await requireUser();
+  if (!CLINIC_SLUGS.includes(clinic)) return { error: 'Unknown clinic.' };
+  await ensureSchema();
+  const want = new Set((Array.isArray(selected) ? selected : []).map(String));
+
+  const links = await builtInClinics();
+  for (const [slug, clinics] of Object.entries(links)) {
+    const has = clinics.includes(clinic);
+    if (has === want.has(slug)) continue;
+    const next = has ? clinics.filter((c) => c !== clinic) : [...clinics, clinic];
+    await sql()`INSERT INTO clinic_builtin_links (slug, clinics, updated_at) VALUES (${slug}, ${next}, now())
+      ON CONFLICT (slug) DO UPDATE SET clinics = EXCLUDED.clinics, updated_at = now()`;
+  }
+
+  const added = (await sql()`SELECT slug, clinics FROM clinic_treatments`) as { slug: string; clinics: string[] }[];
+  for (const t of added) {
+    const has = (t.clinics ?? []).includes(clinic);
+    if (has === want.has(t.slug)) continue;
+    if (has) await sql()`UPDATE clinic_treatments SET clinics = array_remove(clinics, ${clinic}), updated_at = now() WHERE slug = ${t.slug}`;
+    else await sql()`UPDATE clinic_treatments SET clinics = array_append(clinics, ${clinic}), updated_at = now() WHERE slug = ${t.slug}`;
+  }
+
+  refreshSite([`/clinics/${clinic}`]);
+  revalidatePath('/admin/clinics');
+  revalidatePath('/admin/treatments');
+  return { ok: 'Saved. The clinic page shows these therapies within a few minutes.' };
+}
+
+export async function resetBuiltInLinks(): Promise<FormState> {
+  await requireAdmin();
+  await sql()`DELETE FROM clinic_builtin_links`;
+  refreshSite();
+  revalidatePath('/admin/clinics');
+  return { ok: 'The built-in therapies are back on their original clinics.' };
+}
+
+// ---------- doctors ----------
+
+export async function newDoctor() {
+  await requireUser();
+  await ensureSchema();
+  const slug = `draft-${randomBytes(4).toString('hex')}`;
+  const r = await sql()`INSERT INTO clinic_doctors (slug, name, visible, sort) VALUES (${slug}, 'New doctor', FALSE,
+    (SELECT COALESCE(MAX(sort), 0) + 10 FROM clinic_doctors)) RETURNING id`;
+  redirect(`/admin/doctors/${(r[0] as { id: number }).id}`);
+}
+
+export interface DoctorInput { name: string; quals: string; role: string; photo: string | null; sort: number; visible: boolean }
+
+export async function saveDoctor(id: number, input: DoctorInput): Promise<FormState> {
+  await requireUser();
+  const old = (await sql()`SELECT slug FROM clinic_doctors WHERE id = ${id}`)[0] as { slug: string } | undefined;
+  if (!old) return { error: 'That doctor is no longer on the list.' };
+  const name = String(input.name ?? '').trim().slice(0, 120);
+  const quals = String(input.quals ?? '').split(/[,·\n]+/).map((q) => q.trim()).filter(Boolean).slice(0, 12).map((q) => q.slice(0, 40));
+  const role = String(input.role ?? '').trim().slice(0, 120);
+  const photo = input.photo && safeImage(input.photo) ? input.photo : null;
+  const sort = Math.max(0, Math.min(9999, Math.round(Number(input.sort) || 100)));
+  const visible = !!input.visible;
+  if (!name || name === 'New doctor') return { error: 'Add the doctor’s name.' };
+  if (visible && !quals.length) return { error: 'Add at least one qualification before showing the doctor on the site.' };
+  if (visible && !photo) return { error: 'Add a photograph before showing the doctor on the site.' };
+  // a new doctor's address comes from their name; an existing one keeps theirs, so links keep working
+  let slug = old.slug;
+  if (slug.startsWith('draft-')) {
+    slug = slugify(name.replace(/^dr\.?\s+/i, '')) || slug;
+    if ((await sql()`SELECT 1 FROM clinic_doctors WHERE slug = ${slug} AND id <> ${id}`).length) slug = `${slug}-${randomBytes(2).toString('hex')}`;
+  }
+  await sql()`UPDATE clinic_doctors SET slug = ${slug}, name = ${name}, quals = ${quals}, role = ${role}, photo_url = ${photo},
+    sort = ${sort}, visible = ${visible}, updated_at = now() WHERE id = ${id}`;
+  refreshDoctors();
+  return { ok: visible ? 'Saved. The doctor is shown on the site within a few minutes.' : 'Saved. The doctor is hidden from the site.' };
+}
+
+export async function deleteDoctor(id: number) {
+  await requireUser();
+  await sql()`DELETE FROM clinic_doctors WHERE id = ${id}`;
+  refreshDoctors();
+  redirect('/admin/doctors');
+}
+
+/** Moves a doctor one place up or down the list. */
+export async function moveDoctor(id: number, by: -1 | 1) {
+  await requireUser();
+  const list = (await sql()`SELECT id FROM clinic_doctors ORDER BY sort, name`) as { id: number }[];
+  const i = list.findIndex((d) => d.id === id), j = i + by;
+  if (i < 0 || j < 0 || j >= list.length) return;
+  [list[i], list[j]] = [list[j], list[i]];
+  for (const [k, d] of list.entries()) await sql()`UPDATE clinic_doctors SET sort = ${(k + 1) * 10} WHERE id = ${d.id}`;
+  refreshDoctors();
+}
+
+function refreshDoctors() {
+  // every public page carries the doctors in its structured data
+  revalidatePath('/', 'layout');
+  revalidatePath('/admin/doctors');
 }
 
 // ---------- journal ----------

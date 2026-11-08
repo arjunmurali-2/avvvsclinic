@@ -1,14 +1,14 @@
 import { CLINICS, REVIVE } from '@/lib/clinics';
 import { HOME_FAQ } from '@/lib/faq';
-import { getPosts, getTherapies } from '@/lib/content';
-import { CLINIC, DOCTOR, DOCTORS, FOUNDED, PARENT_URL, abs } from '@/lib/site';
+import { getDoctors, getPosts, getTherapies } from '@/lib/content';
+import { CLINIC, DOCTOR, FOUNDED, PARENT_URL, abs } from '@/lib/site';
 
 // llms.txt (llmstxt.org): a plain summary of the clinic for AI answer engines, built from the same
 // facts as the pages, so the two can never disagree.
 export const revalidate = 3600;
 
 export async function GET() {
-  const [THERAPIES, POSTS] = await Promise.all([getTherapies(), getPosts()]);
+  const [THERAPIES, POSTS, DOCTORS] = await Promise.all([getTherapies(), getPosts(), getDoctors()]);
   const text = `# ${CLINIC.name}
 
 > ${CLINIC.description}

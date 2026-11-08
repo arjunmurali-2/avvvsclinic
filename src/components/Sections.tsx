@@ -2,8 +2,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { CLINICS, REVIVE, clinicBySlug } from '@/lib/clinics';
 import type { Post } from '@/lib/journal';
-import { getPosts } from '@/lib/content';
-import { CLINIC, DOCTORS, tel } from '@/lib/site';
+import { getDoctors, getPosts } from '@/lib/content';
+import { CLINIC, tel } from '@/lib/site';
 import { Chevron } from './Parts';
 
 type Tile = { slug: string; size: 'wide' | 'half' | 'third' | 'full'; img?: string; pos?: string };
@@ -44,8 +44,10 @@ export function ClinicTiles({ exclude }: { exclude?: string }) {
 }
 
 /** The doctors, as a quiet row of studio portraits. */
-export function Doctors({ tone = '', page = false }: { tone?: string; page?: boolean }) {
+export async function Doctors({ tone = '', page = false }: { tone?: string; page?: boolean }) {
   const H = page ? 'h1' : 'h2';
+  const doctors = await getDoctors();
+  if (!doctors.length && !page) return null;
   return (
     <section className={`sec ${tone}`} aria-labelledby="doctors-title" style={page ? { paddingTop: 'clamp(40px, 6vh, 72px)' } : undefined}>
       <div className="in center head">
@@ -53,9 +55,9 @@ export function Doctors({ tone = '', page = false }: { tone?: string; page?: boo
         <p className="lede" data-reveal data-delay="80">Ayurvedic physicians, and modern medicine where it helps, under one roof.</p>
       </div>
       <ul className="docs" data-stagger>
-        {DOCTORS.map((d) => (
-          <li key={d.slug} className="doc">
-            <span className="doc-pic"><Image src={`/doctors/${d.slug}.jpg`} alt={`Portrait of ${d.name}`} width={600} height={720} sizes="(min-width: 1100px) 360px, (min-width: 640px) 45vw, 90vw" /></span>
+        {doctors.map((d) => (
+          <li key={d.slug} id={d.slug} className="doc">
+            <span className="doc-pic">{d.photo && <Image src={d.photo} alt={`Portrait of ${d.name}`} width={600} height={720} sizes="(min-width: 1100px) 360px, (min-width: 640px) 45vw, 90vw" />}</span>
             <h3>{d.name}</h3>
             <p>{d.quals.join(' · ')}</p>
             {d.role && <p className="doc-role">{d.role}</p>}

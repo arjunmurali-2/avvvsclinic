@@ -2,16 +2,16 @@ import type { Metadata } from 'next';
 import { Close, Crumbs, JsonLd } from '@/components/Parts';
 import { Doctors } from '@/components/Sections';
 import { breadcrumbLd } from '@/lib/ld';
-import { CLINIC, DOCTORS, alternatesFor } from '@/lib/site';
+import { CLINIC, alternatesFor } from '@/lib/site';
+import { getDoctors } from '@/lib/content';
 
-const DESCRIPTION = `The doctors of ${CLINIC.name}, Kozhikode: ${DOCTORS.map((d) => `${d.name} (${d.quals.join(', ')})`).join('; ')}.`;
+export const revalidate = 300;
 
-export const metadata: Metadata = {
-  title: 'Doctors',
-  description: DESCRIPTION,
-  alternates: alternatesFor('/doctors'),
-  openGraph: { url: '/doctors', title: `Doctors · ${CLINIC.name}`, description: DESCRIPTION },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const doctors = await getDoctors();
+  const description = `The doctors of ${CLINIC.name}, Kozhikode: ${doctors.map((d) => `${d.name} (${d.quals.join(', ')})`).join('; ')}.`;
+  return { title: 'Doctors', description, alternates: alternatesFor('/doctors'), openGraph: { url: '/doctors', title: `Doctors · ${CLINIC.name}`, description } };
+}
 
 export default function DoctorsPage() {
   return (

@@ -1,9 +1,8 @@
 import Link from 'next/link';
 import { sql, ensureSchema } from '@/lib/db';
 import { requireUser } from '@/lib/auth';
-import { clinicName, type TreatmentRow } from '@/lib/content';
+import { builtInClinics, clinicName, type TreatmentRow } from '@/lib/content';
 import { THERAPIES } from '@/lib/therapies';
-import { CLINICS, REVIVE } from '@/lib/clinics';
 import { newTreatment } from '../../actions';
 
 export const metadata = { title: 'Treatments' };
@@ -14,6 +13,7 @@ export default async function Treatments() {
   await requireUser();
   await ensureSchema();
   const rows = (await sql()`SELECT * FROM clinic_treatments ORDER BY status DESC, sort, updated_at DESC`) as unknown as TreatmentRow[];
+  const links = await builtInClinics();
   return (
     <div className="ad-page">
       <div className="ad-head">
@@ -47,12 +47,9 @@ export default async function Treatments() {
 
       <section className="ad-builtin">
         <h2>Built into the site</h2>
-        <p className="ad-muted">These therapies are part of the site&rsquo;s code and its clinic pages, so a developer changes them.</p>
+        <p className="ad-muted">Their descriptions are part of the site&rsquo;s code. Which clinics they appear under is set on the <Link href="/admin/clinics">Clinics</Link> page.</p>
         <ul>
-          {THERAPIES.map((t) => {
-            const at = [...CLINICS.filter((c) => c.therapies.includes(t.slug)).map((c) => c.name), ...(REVIVE.therapies.includes(t.slug) ? [REVIVE.name] : [])];
-            return <li key={t.slug}><b>{t.name}</b> <span className="ad-muted">· {at.join(', ')}</span></li>;
-          })}
+          {THERAPIES.map((t) => <li key={t.slug}><b>{t.name}</b> <span className="ad-muted">· {(links[t.slug] ?? []).map(clinicName).join(', ') || 'not shown under any clinic'}</span></li>)}
         </ul>
       </section>
     </div>

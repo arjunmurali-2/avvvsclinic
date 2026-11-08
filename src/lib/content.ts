@@ -3,6 +3,7 @@ import { ensureSchema, hasDatabase, sql } from './db';
 import { CLINICS, REVIVE } from './clinics';
 import { POSTS as BUILT_IN_POSTS, type Block, type Post } from './journal';
 import { THERAPIES as BUILT_IN_THERAPIES, type Therapy } from './therapies';
+import { DOCTORS as BUILT_IN_DOCTORS } from './site';
 
 /*
  * What the public pages read. Each list is the built-in content (in code, reviewed with the site)
@@ -61,7 +62,7 @@ export function cleanBlocks(input: unknown): Block[] {
 
 /** Images the site will show: Vercel Blob uploads, local development uploads, and the site's own photos. */
 export const safeImage = (url: string) =>
-  /^https:\/\/[a-z0-9.-]+\.public\.blob\.vercel-storage\.com\//i.test(url) || /^\/(uploads|photos)\/[\w./-]+$/.test(url);
+  /^https:\/\/[a-z0-9.-]+\.public\.blob\.vercel-storage\.com\//i.test(url) || /^\/(uploads|photos|doctors)\/[\w./-]+$/.test(url);
 
 const wordCount = (blocks: Block[], extra: string) =>
   `${extra} ${blocks.map((b) => ('text' in b ? b.text : 'items' in b ? (b.items as unknown[]).map((x) => (typeof x === 'string' ? x : '')).join(' ') : '')).join(' ')}`
@@ -97,12 +98,22 @@ async function rows<T>(fn: () => Promise<unknown[]>): Promise<T[]> {
 
 // ---------- therapies ----------
 
+/** The clinics each built-in therapy belongs to, as written in the code. */
+export const defaultBuiltInClinics = (slug: string) =>
+  [...CLINICS.filter((c) => c.therapies.includes(slug)).map((c) => c.slug), ...(REVIVE.therapies.includes(slug) ? [REVIVE.slug] : [])];
+
+/** The same, with any change made in the admin's Clinics page applied. */
+export async function builtInClinics(): Promise<Record<string, string[]>> {
+  const over = await rows<{ slug: string; clinics: unknown }>(() => sql()`SELECT slug, clinics FROM clinic_builtin_links`);
+  const map = Object.fromEntries(BUILT_IN_THERAPIES.map((t) => [t.slug, defaultBuiltInClinics(t.slug)]));
+  for (const o of over) if (o.slug in map) map[o.slug] = arr(o.clinics).filter((c) => CLINIC_SLUGS.includes(c));
+  return map;
+}
+
 /** Every published therapy, built-in first (in the clinic's own order), then those added in the admin. */
 export async function getTherapies(): Promise<Therapy[]> {
-  const builtIn = BUILT_IN_THERAPIES.map((t) => ({
-    ...t,
-    clinics: [...CLINICS.filter((c) => c.therapies.includes(t.slug)).map((c) => c.slug), ...(REVIVE.therapies.includes(t.slug) ? [REVIVE.slug] : [])],
-  }));
+  const links = await builtInClinics();
+  const builtIn = BUILT_IN_THERAPIES.map((t) => ({ ...t, clinics: links[t.slug] }));
   const db = (await rows<TreatmentRow>(() => sql()`SELECT * FROM clinic_treatments WHERE status = 'published' ORDER BY sort, name`)).map(toTherapy);
   const taken = new Set(builtIn.map((t) => t.slug));
   return [...builtIn, ...db.filter((t) => !taken.has(t.slug))];
@@ -133,6 +144,25 @@ export async function postsForClinic(slug: string) {
 
 export async function postsForTherapy(slug: string) {
   return (await getPosts()).filter((p) => p.treatments?.includes(slug));
+}
+
+// ---------- doctors ----------
+
+export interface Doctor { slug: string; name: string; quals: string[]; role?: string; photo: string | null }
+
+export interface DoctorRow {
+  id: number; slug: string; name: string; quals: string[]; role: string; photo_url: string | null;
+  sort: number; visible: boolean; created_at: string; updated_at: string;
+}
+
+/** The doctors shown on the site, in the admin's order; the launch list when there is no database. */
+export async function getDoctors(): Promise<Doctor[]> {
+  if (!hasDatabase()) return BUILT_IN_DOCTORS.map((d) => ({ ...d, photo: `/doctors/${d.slug}.jpg` }));
+  const db = await rows<DoctorRow>(() => sql()`SELECT * FROM clinic_doctors WHERE visible ORDER BY sort, name`);
+  return db.map((d) => ({
+    slug: d.slug, name: d.name, quals: arr(d.quals), role: d.role || undefined,
+    photo: d.photo_url && safeImage(d.photo_url) ? d.photo_url : null,
+  }));
 }
 
 export const builtInPostSlugs = () => new Set(BUILT_IN_POSTS.map((p) => p.slug));

@@ -38,7 +38,10 @@ within five minutes. The built-in therapies and articles stay in code; the admin
   `clinic_…`, so it can share the avvvs.com Neon database.
 - Development: with no `DATABASE_URL`, the admin runs on PGlite in `.data/` and uploads go to
   `public/uploads/` (both git-ignored); `/admin/setup` needs no key.
-- Roles: editors manage treatments and articles; admins also manage accounts.
+- **Doctors**: add, edit (name, qualifications, role, portrait), reorder, hide or delete. The table is seeded once
+  with the six launch doctors from `src/lib/site.ts`; after that the admin's list is the only one.
+- **Clinics**: tick the therapies listed under "Therapies the doctor may recommend" on each clinic, built-in ones included.
+- Roles: editors manage doctors, clinics, treatments and articles; admins also manage accounts.
 
 ## Booking
 

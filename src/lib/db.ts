@@ -1,5 +1,6 @@
 import 'server-only';
 import { neon } from '@neondatabase/serverless';
+import { DOCTORS } from './site';
 
 /*
  * The admin's database.
@@ -92,6 +93,12 @@ export function ensureSchema() {
       created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
       updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
     )`;
+    // which clinics offer each built-in therapy, once changed in the admin (the code's list is the default)
+    await q`CREATE TABLE IF NOT EXISTS clinic_builtin_links (
+      slug TEXT PRIMARY KEY,
+      clinics TEXT[] NOT NULL DEFAULT '{}',
+      updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    )`;
     await q`CREATE TABLE IF NOT EXISTS clinic_posts (
       id SERIAL PRIMARY KEY,
       slug TEXT NOT NULL UNIQUE,
@@ -110,6 +117,31 @@ export function ensureSchema() {
       created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
       updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
     )`;
+    await q`CREATE TABLE IF NOT EXISTS clinic_doctors (
+      id SERIAL PRIMARY KEY,
+      slug TEXT NOT NULL UNIQUE,
+      name TEXT NOT NULL,
+      quals TEXT[] NOT NULL DEFAULT '{}',
+      role TEXT NOT NULL DEFAULT '',
+      photo_url TEXT,
+      sort INTEGER NOT NULL DEFAULT 100,
+      visible BOOLEAN NOT NULL DEFAULT TRUE,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+      updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    )`;
+    await q`CREATE TABLE IF NOT EXISTS clinic_meta (key TEXT PRIMARY KEY, value TEXT NOT NULL DEFAULT '')`;
+    // the first time, copy in the doctors the site launched with, so the admin starts from them;
+    // after that the table is the only list, so deleting a doctor keeps them deleted
+    const seeded = await q`SELECT 1 FROM clinic_meta WHERE key = 'doctors_seeded'`;
+    if (!seeded.length) {
+      let sort = 10;
+      for (const d of DOCTORS) {
+        await q`INSERT INTO clinic_doctors (slug, name, quals, role, photo_url, sort)
+          VALUES (${d.slug}, ${d.name}, ${d.quals}, ${d.role ?? ''}, ${`/doctors/${d.slug}.jpg`}, ${sort}) ON CONFLICT (slug) DO NOTHING`;
+        sort += 10;
+      }
+      await q`INSERT INTO clinic_meta (key, value) VALUES ('doctors_seeded', now()::text) ON CONFLICT (key) DO NOTHING`;
+    }
   })().catch((e) => { ready = null; throw e; });
   return ready;
 }

@@ -1,4 +1,5 @@
-import { CLINIC, DOCTOR, DOCTORS, FOUNDED, PARENT_URL, SITE_URL, abs } from './site';
+import { CLINIC, FOUNDED, PARENT_URL, SITE_URL, abs } from './site';
+import type { Doctor } from './content';
 import { CLINICS, REVIVE, type QA } from './clinics';
 import { THERAPIES } from './therapies';
 import type { Post } from './journal';
@@ -18,7 +19,7 @@ const address = {
   addressCountry: CLINIC.address.country,
 };
 
-export function clinicLd() {
+export function clinicLd(doctors: Doctor[] = []) {
   return {
     '@context': 'https://schema.org',
     '@type': ['MedicalClinic', 'LocalBusiness'],
@@ -40,7 +41,7 @@ export function clinicLd() {
       { '@type': 'MedicalTherapy', name: `${REVIVE.name} (${REVIVE.kicker})`, description: REVIVE.short, url: abs(`/clinics/${REVIVE.slug}`) },
       ...THERAPIES.map((t) => ({ '@type': 'MedicalTherapy', name: t.name, alternateName: t.ml, description: t.what, url: abs(`/therapies#${t.slug}`) })),
     ],
-    employee: DOCTORS.map((d) => ({ '@id': `${SITE_URL}/doctors#${d.slug}` })),
+    employee: doctors.map((d) => ({ '@id': `${SITE_URL}/doctors#${d.slug}` })),
     parentOrganization: { '@type': 'Organization', '@id': ID.parent, name: CLINIC.legal, url: PARENT_URL, foundingDate: String(FOUNDED) },
     sameAs: CLINIC.social.map((s) => s.href),
     potentialAction: { '@type': 'ReserveAction', target: { '@type': 'EntryPoint', urlTemplate: abs('/book'), actionPlatform: ['https://schema.org/DesktopWebPlatform', 'https://schema.org/MobileWebPlatform'] }, name: 'Book a consultation' },
@@ -48,14 +49,13 @@ export function clinicLd() {
   };
 }
 
-export function doctorLd() {
+export function doctorLd(doctors: Doctor[]) {
   return {
     '@context': 'https://schema.org',
-    '@graph': DOCTORS.map((d) => ({
+    '@graph': doctors.map((d) => ({
       '@type': 'Physician', '@id': `${SITE_URL}/doctors#${d.slug}`, name: d.name, honorificSuffix: d.quals.join(', '),
-      image: abs(`/doctors/${d.slug}.jpg`), jobTitle: d.role, worksFor: { '@id': ID.clinic }, address,
+      ...(d.photo ? { image: d.photo.startsWith('/') ? abs(d.photo) : d.photo } : {}), jobTitle: d.role, worksFor: { '@id': ID.clinic }, address,
       hasCredential: d.quals.map((q) => ({ '@type': 'EducationalOccupationalCredential', credentialCategory: 'degree', name: q })),
-      ...(d.slug === 'ranjith-kumar' ? { description: `${DOCTOR.name} guides the Pain Management Clinic at ${CLINIC.name}, combining Ayurvedic therapies with modern medical care.` } : {}),
     })),
   };
 }

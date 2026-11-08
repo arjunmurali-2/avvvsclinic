@@ -134,3 +134,9 @@
 .ad-preview-dek { font-size: 1.2rem; color: var(--ink-2); max-width: 600px; }
 .ad-preview-cover { width: 100%; max-width: 900px; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 18px; }
 .ad-preview .prose { text-align: left; width: 100%; }
+
+.ad-cards-wide { grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); align-items: start; }
+.ad-card-top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.ad-doc { display: flex; align-items: center; gap: 12px; }
+.ad-doc img, .ad-doc-empty { width: 44px; height: 52px; border-radius: 10px; object-fit: cover; object-position: 50% 18%; background: var(--hair-soft); flex: none; }
+.ad-thumb-portrait { aspect-ratio: 5 / 6; max-height: 340px; object-position: 50% 18%; }
