@@ -34,6 +34,8 @@ export interface Post {
   treatments?: string[];
   /** written in the admin rather than built into the site */
   fromAdmin?: boolean;
+  /** slug of the clinic doctor who medically reviewed it, when one has */
+  reviewer?: string;
 }
 
 export const POSTS: Post[] = [
@@ -151,7 +153,7 @@ export const POSTS: Post[] = [
       { t: 'note', h: 'Lost?', text: `Call ${CLINIC.phones[0]} or ${CLINIC.phones[1]} and the clinic will guide you in.` },
     ],
     faq: [
-      { q: 'Where is AVVVS Ayur Speciality Clinic?', a: 'On the 3rd floor of Kaloor Central, Annie Hall Road, opposite Kozhikode Railway Station, Kozhikode, Kerala 673002.' },
+      { q: 'Where is AVVVS Ayur Speciality Clinic?', a: 'On the 3rd floor of Kaloor Central, Annie Hall Road, opposite Kozhikode Railway Station, Kozhikode (Calicut), Kerala 673002.' },
       { q: 'Is there an Ayurveda clinic near Kozhikode Railway Station?', a: 'Yes. AVVVS Ayur Speciality Clinic is directly opposite Kozhikode Railway Station, on the 3rd floor of Kaloor Central, Annie Hall Road.' },
     ],
   },

@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Close, Crumbs, Faq, JsonLd } from '@/components/Parts';
 import { ClinicTiles, Visit } from '@/components/Sections';
 import { CLINICS, REVIVE } from '@/lib/clinics';
-import { breadcrumbLd, medicalPageLd } from '@/lib/ld';
+import { breadcrumbLd, itemListLd, medicalPageLd } from '@/lib/ld';
 import { alternatesFor } from '@/lib/site';
 
 const DESCRIPTION = 'Six speciality clinics at AVVVS Ayur Speciality Clinic, Kozhikode: headache, pain management, obesity and lifestyle management, male and female infertility, pregnancy and postnatal care, and Gloveda Revive for skin and hair.';
@@ -35,6 +35,7 @@ export default function ClinicsPage() {
       <Visit />
       <Close />
       <JsonLd data={breadcrumbLd([{ name: 'Speciality clinics', path: '/clinics' }])} />
+      <JsonLd data={itemListLd('Speciality clinics at AVVVS Ayur Speciality Clinic, Kozhikode', [...CLINICS.map((c) => ({ name: c.name, path: `/clinics/${c.slug}` })), { name: REVIVE.name, path: `/clinics/${REVIVE.slug}` }])} />
       <JsonLd data={medicalPageLd({ path: '/clinics', name: 'Speciality clinics', description: DESCRIPTION })} />
     </main>
   );

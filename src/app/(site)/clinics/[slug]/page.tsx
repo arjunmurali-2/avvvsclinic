@@ -6,7 +6,7 @@ import { Close, Crumbs, Faq, JsonLd, More } from '@/components/Parts';
 import { ClinicTiles, Journal } from '@/components/Sections';
 import { postsForClinic, therapiesForClinic } from '@/lib/content';
 import { CLINICS, REVIVE, clinicBySlug, type Clinic } from '@/lib/clinics';
-import { breadcrumbLd, medicalPageLd } from '@/lib/ld';
+import { CONDITIONS, breadcrumbLd, medicalPageLd } from '@/lib/ld';
 import { DOCTOR, alternatesFor } from '@/lib/site';
 
 // Gloveda Revive shares the clinic page's shape.
@@ -36,7 +36,7 @@ export function generateStaticParams() { return [...CLINICS.map((c) => ({ slug: 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const c = find((await params).slug);
   if (!c) return {};
-  const title = c.slug === REVIVE.slug ? 'Gloveda Revive: Ayur-Medi Cosmetic Clinic for skin and hair' : `${c.name} in Kozhikode`;
+  const title = c.slug === REVIVE.slug ? 'Gloveda Revive: Ayur-Medi Cosmetic Clinic for skin and hair' : `${c.name} in Kozhikode (Calicut)`;
   return { title, description: c.short, alternates: alternatesFor(`/clinics/${c.slug}`), openGraph: { url: `/clinics/${c.slug}`, title: `${title} · AVVVS`, description: c.short } };
 }
 
@@ -80,7 +80,7 @@ export default async function ClinicPage({ params }: { params: Promise<{ slug: s
           <div style={{ marginTop: 'clamp(56px, 7vw, 88px)', display: 'grid', gap: 18, justifyItems: 'center' }} data-reveal>
             <p className="small">Therapies the doctor may recommend</p>
             <ul className="pills">
-              {therapies.map((t) => <li key={t.slug}><Link href={`/therapies#${t.slug}`}>{t.name} <small lang="ml">{t.ml}</small></Link></li>)}
+              {therapies.map((t) => <li key={t.slug}><Link href={`/therapies/${t.slug}`}>{t.name} <small lang="ml">{t.ml}</small></Link></li>)}
             </ul>
           </div>
         )}
@@ -100,7 +100,7 @@ export default async function ClinicPage({ params }: { params: Promise<{ slug: s
 
       <Close care={c.slug} />
       <JsonLd data={breadcrumbLd([{ name: 'Speciality clinics', path: '/clinics' }, { name: c.name, path: `/clinics/${c.slug}` }])} />
-      <JsonLd data={medicalPageLd({ path: `/clinics/${c.slug}`, name: c.name, description: c.short, about: c.name })} />
+      <JsonLd data={medicalPageLd({ path: `/clinics/${c.slug}`, name: `${c.name}, Kozhikode`, description: c.short, conditions: CONDITIONS[c.slug] })} />
     </main>
   );
 }

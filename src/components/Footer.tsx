@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { CLINICS, REVIVE } from '@/lib/clinics';
 import { CLINIC, PARENT_URL, tel } from '@/lib/site';
 import { Year } from './Year';
+import { CookieSettingsLink } from './CookieConsent';
 
 /** The quiet grey footer: the facts, the routes, the fine print. */
 export function Footer() {
@@ -49,6 +50,8 @@ export function Footer() {
           </div>
           <ul>
             <li><Link href="/privacy">Privacy</Link></li>
+            <li><Link href="/terms">Terms</Link></li>
+            <li><CookieSettingsLink label="Cookie settings" /></li>
             {CLINIC.social.map((s) => <li key={s.label}><a href={s.href} rel="noopener">{s.label}</a></li>)}
           </ul>
         </div>

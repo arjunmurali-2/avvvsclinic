@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Close, Crumbs, Faq, JsonLd } from '@/components/Parts';
 import { clinicName, getPosts, getTherapies } from '@/lib/content';
-import { breadcrumbLd, medicalPageLd } from '@/lib/ld';
+import { breadcrumbLd, itemListLd, medicalPageLd, therapiesLd } from '@/lib/ld';
 import { alternatesFor } from '@/lib/site';
 
 export const revalidate = 300;
@@ -11,7 +11,7 @@ export const revalidate = 300;
 const DESCRIPTION = 'Authentic Kerala Panchakarma at AVVVS Ayur Speciality Clinic, Kozhikode: Pizhichil, Shirodhara, Abhyanga, Elakizhi, Njavarakizhi and Udwarthana, with treatments for rejuvenation and healthy ageing.';
 
 export const metadata: Metadata = {
-  title: 'Kerala Panchakarma therapies in Kozhikode',
+  title: 'Panchakarma and Kerala therapies in Kozhikode (Calicut)',
   description: DESCRIPTION,
   alternates: alternatesFor('/therapies'),
   openGraph: { url: '/therapies', title: 'Kerala Panchakarma therapies · AVVVS Ayur Speciality Clinic', description: DESCRIPTION },
@@ -42,12 +42,13 @@ export default async function TherapiesPage() {
                   <Image src={t.img} alt="" width={1200} height={1500} sizes="(min-width: 860px) 50vw, 100vw" style={{ objectPosition: t.pos }} />
                 </figure>
                 <div className="th-copy" data-reveal data-delay="100">
-                  <h2 className="t-2">{t.name}</h2>
+                  <h2 className="t-2"><Link href={`/therapies/${t.slug}`} style={{ color: 'inherit' }}>{t.name}</Link></h2>
                   {t.ml && <span className="g-ml" lang="ml">{t.ml}</span>}
                   <p>{t.what}</p>
                   {t.how && <p className="muted">{t.how}</p>}
                   {clinics.length > 0 && <p className="small">Offered in {and(clinics.map((c) => <Link key={c} href={`/clinics/${c}`}>{clinicName(c)}</Link>))}.</p>}
                   {reading.length > 0 && <p className="small">Read: {and(reading.map((p) => <Link key={p.slug} href={`/journal/${p.slug}`}>{p.title}</Link>))}.</p>}
+                  <p className="small"><Link href={`/therapies/${t.slug}`}>{t.name} at the clinic</Link></p>
                 </div>
               </article>
             );
@@ -62,6 +63,8 @@ export default async function TherapiesPage() {
       ]} />
       <Close care="panchakarma" title="Begin with a consultation." />
       <JsonLd data={breadcrumbLd([{ name: 'Therapies', path: '/therapies' }])} />
+      <JsonLd data={itemListLd('Kerala therapies at AVVVS Ayur Speciality Clinic', therapies.map((t) => ({ name: t.name, path: `/therapies/${t.slug}` })))} />
+      <JsonLd data={therapiesLd(therapies)} />
       <JsonLd data={medicalPageLd({ path: '/therapies', name: 'Kerala Panchakarma therapies', description: DESCRIPTION, about: 'Panchakarma' })} />
     </main>
   );

@@ -10,6 +10,7 @@ import {
 } from '@/lib/auth';
 import { CLINIC_SLUGS, POST_KINDS, builtInClinics, builtInPostSlugs, builtInTherapySlugs, cleanBlocks, safeImage } from '@/lib/content';
 import { slugify } from '@/lib/claims';
+import { pingIndexNow } from '@/lib/indexnow';
 
 export interface FormState { error?: string; ok?: string }
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -18,9 +19,8 @@ const clientIp = async () => (await headers()).get('x-forwarded-for')?.split(','
 
 /** Every public page that lists treatments or articles. */
 function refreshSite(extra: string[] = []) {
-  for (const p of ['/', '/therapies', '/clinics', '/journal', '/sitemap.xml', '/llms.txt', '/journal/rss.xml', ...extra]) revalidatePath(p);
-  revalidatePath('/clinics/[slug]', 'page');
-  revalidatePath('/journal/[slug]', 'page');
+  for (const p of ['/', '/therapies', '/clinics', '/journal', '/doctors', '/sitemap.xml', '/llms.txt', '/llms-full.txt', '/journal/rss.xml', ...extra]) revalidatePath(p);
+  for (const r of ['/clinics/[slug]', '/journal/[slug]', '/therapies/[slug]', '/doctors/[slug]']) revalidatePath(r, 'page');
 }
 
 // ---------- signing in ----------
@@ -160,6 +160,7 @@ export async function saveTreatment(id: number, input: TreatmentInput, mode: 'ke
   refreshSite(clinics.map((c) => `/clinics/${c}`));
   revalidatePath('/admin/treatments');
   const saved = (r[0] as { status: string }).status;
+  if (saved === 'published') pingIndexNow([`/therapies/${slug}`, '/therapies', ...clinics.map((c) => `/clinics/${c}`)]);
   return { ok: saved === 'published' ? (mode === 'publish' ? 'Published. It now appears on the therapies page and its clinics.' : 'Saved. The live treatment is updated.') : mode === 'unpublish' ? 'Unpublished. It is a draft again.' : 'Draft saved.', slug, status: saved };
 }
 
@@ -204,6 +205,7 @@ export async function setClinicTherapies(clinic: string, selected: string[]): Pr
   }
 
   refreshSite([`/clinics/${clinic}`]);
+  pingIndexNow([`/clinics/${clinic}`]);
   revalidatePath('/admin/clinics');
   revalidatePath('/admin/treatments');
   return { ok: 'Saved. The clinic page shows these therapies within a few minutes.' };
@@ -252,6 +254,7 @@ export async function saveDoctor(id: number, input: DoctorInput): Promise<FormSt
   await sql()`UPDATE clinic_doctors SET slug = ${slug}, name = ${name}, quals = ${quals}, role = ${role}, photo_url = ${photo},
     sort = ${sort}, visible = ${visible}, updated_at = now() WHERE id = ${id}`;
   refreshDoctors();
+  if (visible) pingIndexNow([`/doctors/${slug}`, '/doctors']);
   return { ok: visible ? 'Saved. The doctor is shown on the site within a few minutes.' : 'Saved. The doctor is hidden from the site.' };
 }
 
@@ -276,6 +279,7 @@ export async function moveDoctor(id: number, by: -1 | 1) {
 function refreshDoctors() {
   // every public page carries the doctors in its structured data
   revalidatePath('/', 'layout');
+  revalidatePath('/doctors/[slug]', 'page');
   revalidatePath('/admin/doctors');
 }
 
@@ -291,7 +295,7 @@ export async function newPost() {
 
 export interface PostInput {
   title: string; slug: string; dek: string; answer: string; kind: string;
-  cover: { url: string; alt: string } | null; body: unknown; clinic: string; treatments: string[];
+  cover: { url: string; alt: string } | null; body: unknown; clinic: string; treatments: string[]; reviewer: string;
 }
 
 export async function savePost(id: number, input: PostInput, mode: 'keep' | 'publish' | 'unpublish'): Promise<FormState & { slug?: string; status?: string }> {
@@ -309,6 +313,8 @@ export async function savePost(id: number, input: PostInput, mode: 'keep' | 'pub
   const coverAlt = String(input.cover?.alt ?? '').trim().slice(0, 300);
   const clinic = CLINIC_SLUGS.includes(input.clinic) ? input.clinic : null;
   const treatments = (Array.isArray(input.treatments) ? input.treatments : []).map((t) => slugify(String(t))).filter(Boolean).slice(0, 20);
+  const reviewerSlug = String(input.reviewer ?? '').trim();
+  const reviewer = reviewerSlug && (await sql()`SELECT 1 FROM clinic_doctors WHERE slug = ${reviewerSlug}`).length ? reviewerSlug : null;
 
   if (!title) return { error: 'Give the article a title.' };
   if (!slug) return { error: 'The web address needs at least one letter or number.' };
@@ -325,7 +331,7 @@ export async function savePost(id: number, input: PostInput, mode: 'keep' | 'pub
   const status = mode === 'publish' ? 'published' : mode === 'unpublish' ? 'draft' : null;
   const r = await sql()`
     UPDATE clinic_posts SET title = ${title}, slug = ${slug}, dek = ${dek}, answer = ${answer}, kind = ${kind},
-      cover_url = ${coverUrl}, cover_alt = ${coverAlt}, body = ${JSON.stringify(body)}::jsonb, clinic = ${clinic}, treatments = ${treatments},
+      cover_url = ${coverUrl}, cover_alt = ${coverAlt}, body = ${JSON.stringify(body)}::jsonb, clinic = ${clinic}, treatments = ${treatments}, reviewer = ${reviewer},
       status = COALESCE(${status}::text, status),
       published_at = CASE WHEN ${status}::text = 'published' AND published_at IS NULL THEN now() ELSE published_at END,
       updated_at = now()
@@ -333,6 +339,7 @@ export async function savePost(id: number, input: PostInput, mode: 'keep' | 'pub
   refreshSite([`/journal/${slug}`, `/journal/${old.slug}`, ...(clinic ? [`/clinics/${clinic}`] : [])]);
   revalidatePath('/admin/journal');
   const saved = (r[0] as { status: string }).status;
+  if (saved === 'published') pingIndexNow([`/journal/${slug}`, '/journal', ...(clinic ? [`/clinics/${clinic}`] : [])]);
   return { ok: saved === 'published' ? (mode === 'publish' ? 'Published.' : 'Saved. The live article is updated.') : mode === 'unpublish' ? 'Unpublished. It is a draft again.' : 'Draft saved.', slug, status: saved };
 }
 

@@ -129,6 +129,8 @@ export function ensureSchema() {
       created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
       updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
     )`;
+    // the doctor who reviewed an article (their slug); added after launch, so added in place
+    await q`ALTER TABLE clinic_posts ADD COLUMN IF NOT EXISTS reviewer TEXT`;
     await q`CREATE TABLE IF NOT EXISTS clinic_meta (key TEXT PRIMARY KEY, value TEXT NOT NULL DEFAULT '')`;
     // the first time, copy in the doctors the site launched with, so the admin starts from them;
     // after that the table is the only list, so deleting a doctor keeps them deleted

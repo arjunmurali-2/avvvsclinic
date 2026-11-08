@@ -37,7 +37,7 @@ export function TherapyGallery({ items }: { items: Therapy[] }) {
               <h3>{t.name}</h3>
               <span className="g-ml" lang="ml">{t.ml}</span>
               <p>{t.what}</p>
-              <Link className="more" href={`/therapies#${t.slug}`}>More about {t.name}</Link>
+              <Link className="more" href={`/therapies/${t.slug}`}>More about {t.name}</Link>
             </div>
           </li>
         ))}

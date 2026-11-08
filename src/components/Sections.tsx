@@ -58,7 +58,7 @@ export async function Doctors({ tone = '', page = false }: { tone?: string; page
         {doctors.map((d) => (
           <li key={d.slug} id={d.slug} className="doc">
             <span className="doc-pic">{d.photo && <Image src={d.photo} alt={`Portrait of ${d.name}`} width={600} height={720} sizes="(min-width: 1100px) 360px, (min-width: 640px) 45vw, 90vw" />}</span>
-            <h3>{d.name}</h3>
+            <h3><Link href={`/doctors/${d.slug}`} style={{ color: 'inherit' }}>{d.name}</Link></h3>
             <p>{d.quals.join(' · ')}</p>
             {d.role && <p className="doc-role">{d.role}</p>}
           </li>

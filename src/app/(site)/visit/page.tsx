@@ -3,10 +3,10 @@ import { Close, Crumbs, Faq, JsonLd, More } from '@/components/Parts';
 import { CLINIC, alternatesFor, tel } from '@/lib/site';
 import { breadcrumbLd } from '@/lib/ld';
 
-const DESCRIPTION = `${CLINIC.name} is on the 3rd floor of Kaloor Central, Annie Hall Road, directly opposite Kozhikode Railway Station, Kozhikode, Kerala 673002. Call ${CLINIC.phones.join(' or ')}, or email ${CLINIC.email}.`;
+const DESCRIPTION = `${CLINIC.name} is on the 3rd floor of Kaloor Central, Annie Hall Road, directly opposite Kozhikode Railway Station, Kozhikode (Calicut), Kerala 673002. Call ${CLINIC.phones.join(' or ')}, or email ${CLINIC.email}.`;
 
 export const metadata: Metadata = {
-  title: 'Visit and contact',
+  title: 'Visit: opposite Kozhikode Railway Station',
   description: DESCRIPTION,
   alternates: alternatesFor('/visit'),
   openGraph: { url: '/visit', title: `Visit · ${CLINIC.name}`, description: DESCRIPTION },

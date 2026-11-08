@@ -10,7 +10,7 @@ export const revalidate = 300;
 export async function generateMetadata(): Promise<Metadata> {
   const doctors = await getDoctors();
   const description = `The doctors of ${CLINIC.name}, Kozhikode: ${doctors.map((d) => `${d.name} (${d.quals.join(', ')})`).join('; ')}.`;
-  return { title: 'Doctors', description, alternates: alternatesFor('/doctors'), openGraph: { url: '/doctors', title: `Doctors · ${CLINIC.name}`, description } };
+  return { title: 'Ayurveda doctors in Kozhikode (Calicut)', description, alternates: alternatesFor('/doctors'), openGraph: { url: '/doctors', title: `Doctors · ${CLINIC.name}`, description } };
 }
 
 export default function DoctorsPage() {

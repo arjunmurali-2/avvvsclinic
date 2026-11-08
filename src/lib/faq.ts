@@ -5,7 +5,11 @@ import { CLINIC } from './site';
 export const HOME_FAQ: QA[] = [
   {
     q: 'Where is AVVVS Ayur Speciality Clinic?',
-    a: `On the 3rd floor of Kaloor Central, Annie Hall Road, opposite Kozhikode Railway Station, Kozhikode, Kerala 673002. Phone ${CLINIC.phones.join(' or ')}.`,
+    a: `On the 3rd floor of Kaloor Central, Annie Hall Road, opposite Kozhikode Railway Station, Kozhikode (Calicut), Kerala 673002. Phone ${CLINIC.phones.join(' or ')}.`,
+  },
+  {
+    q: 'Where can I get Ayurvedic treatment in Calicut (Kozhikode)?',
+    a: 'AVVVS Ayur Speciality Clinic offers Ayurvedic consultations, speciality clinics and Kerala Panchakarma therapies in Kozhikode (Calicut), directly opposite Kozhikode Railway Station on Annie Hall Road. It is the clinic of Arya Vaidya Vilasini Vaidya Sala, an Ayurveda institution in Kozhikode since 1921.',
   },
   {
     q: 'What does AVVVS Ayur Speciality Clinic treat?',

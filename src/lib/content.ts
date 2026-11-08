@@ -29,7 +29,7 @@ export interface TreatmentRow {
 export interface PostRow {
   id: number; slug: string; title: string; dek: string; answer: string; kind: string;
   cover_url: string | null; cover_alt: string; body: unknown; clinic: string | null; treatments: string[];
-  status: 'draft' | 'published'; author_id: number | null; author_name?: string | null;
+  status: 'draft' | 'published'; author_id: number | null; author_name?: string | null; reviewer?: string | null;
   published_at: string | null; created_at: string; updated_at: string;
 }
 
@@ -86,7 +86,7 @@ export function toPost(r: PostRow): Post {
     minutes: Math.max(1, Math.round(wordCount(blocks, `${r.dek} ${r.answer}`) / 200)),
     cover: { src: r.cover_url && safeImage(r.cover_url) ? r.cover_url : FALLBACK_IMAGE, alt: r.cover_alt || '', position: '50% 50%' },
     blocks, clinic: r.clinic && CLINIC_SLUGS.includes(r.clinic) ? r.clinic : undefined,
-    treatments: arr(r.treatments), fromAdmin: true,
+    treatments: arr(r.treatments), fromAdmin: true, reviewer: r.reviewer || undefined,
   };
 }
 
@@ -117,6 +117,10 @@ export async function getTherapies(): Promise<Therapy[]> {
   const db = (await rows<TreatmentRow>(() => sql()`SELECT * FROM clinic_treatments WHERE status = 'published' ORDER BY sort, name`)).map(toTherapy);
   const taken = new Set(builtIn.map((t) => t.slug));
   return [...builtIn, ...db.filter((t) => !taken.has(t.slug))];
+}
+
+export async function getTherapy(slug: string): Promise<Therapy | undefined> {
+  return (await getTherapies()).find((t) => t.slug === slug);
 }
 
 /** The therapies a clinic offers: its own list, plus any treatment the admin linked to it. */
@@ -163,6 +167,10 @@ export async function getDoctors(): Promise<Doctor[]> {
     slug: d.slug, name: d.name, quals: arr(d.quals), role: d.role || undefined,
     photo: d.photo_url && safeImage(d.photo_url) ? d.photo_url : null,
   }));
+}
+
+export async function getDoctor(slug: string): Promise<Doctor | undefined> {
+  return (await getDoctors()).find((d) => d.slug === slug);
 }
 
 export const builtInPostSlugs = () => new Set(BUILT_IN_POSTS.map((p) => p.slug));

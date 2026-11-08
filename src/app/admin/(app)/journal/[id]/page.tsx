@@ -14,6 +14,7 @@ export default async function EditPost({ params }: { params: Promise<{ id: strin
   const p = (await sql()`SELECT * FROM clinic_posts WHERE id = ${id}`)[0] as unknown as PostRow | undefined;
   if (!p) notFound();
   const added = (await sql()`SELECT slug, name, status FROM clinic_treatments WHERE NOT slug LIKE 'draft-%' ORDER BY sort, name`) as unknown as Pick<TreatmentRow, 'slug' | 'name' | 'status'>[];
+  const doctors = (await sql()`SELECT slug, name FROM clinic_doctors WHERE NOT slug LIKE 'draft-%' ORDER BY sort, name`) as { slug: string; name: string }[];
   const treatments = [
     ...THERAPIES.map((t) => ({ slug: t.slug, name: t.name, note: '' })),
     ...added.map((t) => ({ slug: t.slug, name: t.name, note: t.status === 'draft' ? 'draft' : '' })),
@@ -26,12 +27,13 @@ export default async function EditPost({ params }: { params: Promise<{ id: strin
       kinds={[...POST_KINDS]}
       clinics={CLINIC_SLUGS.map((s) => ({ slug: s, name: clinicName(s) }))}
       treatments={treatments}
+      doctors={doctors}
       initial={{
         title: p.title === 'Untitled article' ? '' : p.title,
         slug: p.slug.startsWith('draft-') ? '' : p.slug,
         dek: p.dek, answer: p.answer, kind: p.kind,
         cover: p.cover_url ? { url: p.cover_url, alt: p.cover_alt } : null,
-        body: cleanBlocks(p.body), clinic: p.clinic ?? '', treatments: p.treatments ?? [],
+        body: cleanBlocks(p.body), clinic: p.clinic ?? '', treatments: p.treatments ?? [], reviewer: p.reviewer ?? '',
       }}
     />
   );

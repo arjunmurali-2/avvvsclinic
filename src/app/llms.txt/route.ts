@@ -15,6 +15,8 @@ export async function GET() {
 
 Part of ${CLINIC.legal} (AVVVS, ${CLINIC.malayalam}), an Ayurveda institution founded in Kozhikode, Kerala in ${FOUNDED}: ${PARENT_URL}
 
+Full text of the site: ${abs('/llms-full.txt')}
+
 ## Key facts
 - Name: ${CLINIC.name}
 - Address: ${CLINIC.address.lines.join(', ')}, India
@@ -25,14 +27,14 @@ Part of ${CLINIC.legal} (AVVVS, ${CLINIC.malayalam}), an Ayurveda institution fo
 - Pain Management Clinic guided by ${DOCTOR.name} (${DOCTOR.qualifications.join(', ')})
 
 ## Doctors
-${DOCTORS.map((d) => `- ${d.name} (${d.quals.join(', ')})${d.role ? `: ${d.role}` : ''}`).join('\n')}
+${DOCTORS.map((d) => `- [${d.name}](${abs(`/doctors/${d.slug}`)}) (${d.quals.join(', ')})${d.role ? `: ${d.role}` : ''}`).join('\n')}
 
 ## Speciality clinics
 ${CLINICS.map((c) => `- [${c.name}](${abs(`/clinics/${c.slug}`)}): ${c.short}`).join('\n')}
 - [${REVIVE.name}](${abs(`/clinics/${REVIVE.slug}`)}): ${REVIVE.short}
 
 ## Kerala Panchakarma therapies
-${THERAPIES.map((t) => `- [${t.name} (${t.ml})](${abs(`/therapies#${t.slug}`)}): ${t.what}`).join('\n')}
+${THERAPIES.map((t) => `- [${t.name}${t.ml ? ` (${t.ml})` : ''}](${abs(`/therapies/${t.slug}`)}): ${t.what}`).join('\n')}
 
 ## Questions and answers
 ${HOME_FAQ.map((f) => `- ${f.q} ${f.a}`).join('\n')}

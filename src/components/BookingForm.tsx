@@ -6,6 +6,7 @@ import { useSearchParams } from 'next/navigation';
 import { animate, stagger } from 'animejs';
 import { CARE, SLOTS, careById, fmtDay, nextDays, validate, type Booking } from '@/lib/booking';
 import { CLINIC, tel } from '@/lib/site';
+import { trackBooking } from '@/lib/track';
 
 type Step = 0 | 1 | 2;
 const STEPS = ['Care', 'Day and time', 'Your details'];
@@ -62,7 +63,7 @@ export function BookingForm() {
       const r = await fetch('/api/book', { method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...b, website: fd.get('website') || '', startedAt: started.current }) });
       const j = await r.json().catch(() => ({}));
-      if (r.ok && j.ok) { setState('done'); toTop(); }
+      if (r.ok && j.ok) { setState('done'); trackBooking(b.care); toTop(); }
       else { if (j.fields) setErr(j.fields); setState('failed'); }
     } catch { setState('failed'); }
   }

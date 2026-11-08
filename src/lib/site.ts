@@ -21,7 +21,7 @@ export const CLINIC = {
   email: 'avvvsayurspecialityclinic@gmail.com',
   phones: ['+91 99469 29448', '+91 80892 02092'],
   address: {
-    lines: ['3rd floor, Kaloor Central', 'Annie Hall Road', 'Opp. Kozhikode Railway Station', 'Kozhikode, Kerala 673002'],
+    lines: ['3rd floor, Kaloor Central', 'Annie Hall Road', 'Opp. Kozhikode Railway Station', 'Kozhikode (Calicut), Kerala 673002'],
     street: '3rd floor, Kaloor Central, Annie Hall Road, opposite Kozhikode Railway Station',
     locality: 'Kozhikode',
     region: 'Kerala',
@@ -32,7 +32,7 @@ export const CLINIC = {
   maps: 'https://www.google.com/maps/search/?api=1&query=Kaloor+Central+Annie+Hall+Road+Kozhikode+673002',
   pharmacy: 'https://shop.avvvs.com/',
   description:
-    'AVVVS Ayur Speciality Clinic in Kozhikode, Kerala, opposite the railway station, brings over a century of authentic Ayurvedic wisdom from Arya Vaidya Vilasini Vaidya Sala (founded 1921) to personalised care: speciality clinics for headache, pain management, obesity and lifestyle management, male and female infertility, and pregnancy and postnatal care, with authentic Kerala Panchakarma therapies and the Gloveda Revive Ayur-Medi Cosmetic Clinic for skin and hair.',
+    'AVVVS Ayur Speciality Clinic in Kozhikode (Calicut), Kerala, opposite Kozhikode Railway Station, brings over a century of authentic Ayurvedic wisdom from Arya Vaidya Vilasini Vaidya Sala (founded 1921) to personalised care: speciality clinics for headache, pain management, obesity and lifestyle management, male and female infertility, and pregnancy and postnatal care, with authentic Kerala Panchakarma therapies and the Gloveda Revive Ayur-Medi Cosmetic Clinic for skin and hair.',
   social: [
     { label: 'Facebook', href: 'https://www.facebook.com/aryavaidyavilasini' },
     { label: 'Instagram', href: 'https://www.instagram.com/avvvsglobal/' },

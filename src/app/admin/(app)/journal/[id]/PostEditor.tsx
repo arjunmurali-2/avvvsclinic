@@ -91,9 +91,9 @@ function Preview({ d }: { d: PostInput & { body: Block[] } }) {
   );
 }
 
-export function PostEditor({ id, initial, status: startStatus, author, kinds, clinics, treatments }: {
+export function PostEditor({ id, initial, status: startStatus, author, kinds, clinics, treatments, doctors }: {
   id: number; initial: PostInput & { body: Block[] }; status: string; author: string; kinds: string[];
-  clinics: { slug: string; name: string }[]; treatments: { slug: string; name: string; note: string }[];
+  clinics: { slug: string; name: string }[]; treatments: { slug: string; name: string; note: string }[]; doctors: { slug: string; name: string }[];
 }) {
   const [d, setD] = useState(initial.body.length ? initial : { ...initial, body: [empty('p')] });
   const [slugTouched, setSlugTouched] = useState(!!initial.slug);
@@ -207,6 +207,16 @@ export function PostEditor({ id, initial, status: startStatus, author, kinds, cl
                   ))}
                 </div>
               </fieldset>
+            </div>
+            <div className="ad-card">
+              <h2>Medical review</h2>
+              <label className="ad-field"><span>Medically reviewed by</span>
+                <select value={d.reviewer} onChange={(e) => up({ reviewer: e.target.value })}>
+                  <option value="">Not reviewed by a doctor yet</option>
+                  {doctors.map((x) => <option key={x.slug} value={x.slug}>{x.name}</option>)}
+                </select>
+              </label>
+              <p className="ad-muted">Choose a doctor only once they have read and approved the article. Their name is shown on it and tells search engines a doctor checked it.</p>
             </div>
             <div className="ad-card">
               <h2>Details</h2>

@@ -5,7 +5,8 @@ import { Close, Crumbs, Faq, JsonLd } from '@/components/Parts';
 import { Journal } from '@/components/Sections';
 import { clinicBySlug } from '@/lib/clinics';
 import { POSTS, fmtDate, type Block } from '@/lib/journal';
-import { getPost } from '@/lib/content';
+import { getDoctor, getPost } from '@/lib/content';
+import Link from 'next/link';
 import { breadcrumbLd, postLd } from '@/lib/ld';
 import { alternatesFor } from '@/lib/site';
 
@@ -49,6 +50,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
   const p = await getPost((await params).slug);
   if (!p) notFound();
   const clinic = p.clinic ? clinicBySlug(p.clinic) : undefined;
+  const reviewer = p.reviewer ? await getDoctor(p.reviewer) : undefined;
   return (
     <main id="main">
       <article>
@@ -57,7 +59,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
             <Crumbs trail={[{ name: 'Journal', href: '/journal' }, { name: p.kind }]} />
             <h1 className="t-1" data-reveal data-now>{p.title}</h1>
             <p className="lede" data-reveal data-now data-delay="120">{p.dek}</p>
-            <p className="small" data-reveal data-now data-delay="200">{p.minutes} min read · <time dateTime={p.revised}>{fmtDate(p.revised)}</time></p>
+            <p className="small" data-reveal data-now data-delay="200">{p.minutes} min read · <time dateTime={p.revised}>{fmtDate(p.revised)}</time>{reviewer && <> · Medically reviewed by <Link href={`/doctors/${reviewer.slug}`}>{reviewer.name}</Link>, {reviewer.quals.join(', ')}</>}</p>
           </div>
         </header>
         <div className="art-pic" data-reveal data-now data-delay="260">
@@ -74,7 +76,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
       {p.faq && <Faq title="Quick answers." items={p.faq} tone="mist" />}
       <Journal exclude={p.slug} />
       <Close care={clinic?.slug} title={clinic ? `Book the ${clinic.name}.` : 'Talk to a doctor.'} />
-      <JsonLd data={postLd(p)} />
+      <JsonLd data={postLd(p, reviewer)} />
       <JsonLd data={breadcrumbLd([{ name: 'Journal', path: '/journal' }, { name: p.title, path: `/journal/${p.slug}` }])} />
     </main>
   );
