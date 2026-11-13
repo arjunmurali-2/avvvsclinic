@@ -132,6 +132,58 @@ export function ensureSchema() {
     // the doctor who reviewed an article (their slug); added after launch, so added in place
     await q`ALTER TABLE clinic_posts ADD COLUMN IF NOT EXISTS reviewer TEXT`;
     await q`CREATE TABLE IF NOT EXISTS clinic_meta (key TEXT PRIMARY KEY, value TEXT NOT NULL DEFAULT '')`;
+    // ---------- online consultations ----------
+    await q`ALTER TABLE clinic_doctors ADD COLUMN IF NOT EXISTS email TEXT NOT NULL DEFAULT ''`;
+    await q`ALTER TABLE clinic_doctors ADD COLUMN IF NOT EXISTS online BOOLEAN NOT NULL DEFAULT FALSE`;
+    await q`ALTER TABLE clinic_doctors ADD COLUMN IF NOT EXISTS online_minutes INTEGER NOT NULL DEFAULT 20`;
+    await q`ALTER TABLE clinic_doctors ADD COLUMN IF NOT EXISTS online_fee_paise INTEGER`;
+    // a doctor's weekly online hours, in minutes after midnight, India time
+    await q`CREATE TABLE IF NOT EXISTS clinic_availability (
+      id SERIAL PRIMARY KEY,
+      doctor_id INTEGER NOT NULL REFERENCES clinic_doctors(id) ON DELETE CASCADE,
+      weekday INTEGER NOT NULL CHECK (weekday BETWEEN 0 AND 6),
+      start_min INTEGER NOT NULL,
+      end_min INTEGER NOT NULL
+    )`;
+    // days a doctor is away (dates as YYYY-MM-DD, India time, inclusive)
+    await q`CREATE TABLE IF NOT EXISTS clinic_time_off (
+      id SERIAL PRIMARY KEY,
+      doctor_id INTEGER NOT NULL REFERENCES clinic_doctors(id) ON DELETE CASCADE,
+      from_date TEXT NOT NULL,
+      to_date TEXT NOT NULL,
+      note TEXT NOT NULL DEFAULT ''
+    )`;
+    // payment_* and hold_expires_at are unused while there is no online payment; they are here so a
+    // gateway can be added without changing the table (status pending_payment until it is paid)
+    await q`CREATE TABLE IF NOT EXISTS clinic_appointments (
+      id SERIAL PRIMARY KEY,
+      ref TEXT NOT NULL UNIQUE,
+      doctor_id INTEGER NOT NULL REFERENCES clinic_doctors(id) ON DELETE RESTRICT,
+      starts_at TIMESTAMPTZ NOT NULL,
+      ends_at TIMESTAMPTZ NOT NULL,
+      status TEXT NOT NULL DEFAULT 'confirmed' CHECK (status IN ('pending_payment', 'confirmed', 'cancelled', 'completed', 'no_show')),
+      name TEXT NOT NULL,
+      phone TEXT NOT NULL,
+      email TEXT NOT NULL,
+      age TEXT NOT NULL DEFAULT '',
+      note TEXT NOT NULL DEFAULT '',
+      care TEXT NOT NULL DEFAULT '',
+      consent_at TIMESTAMPTZ,
+      google_event_id TEXT,
+      meet_url TEXT,
+      manage_token_hash TEXT NOT NULL,
+      reminder_sent_at TIMESTAMPTZ,
+      cancelled_at TIMESTAMPTZ,
+      payment_status TEXT NOT NULL DEFAULT 'not_required' CHECK (payment_status IN ('not_required', 'pending', 'paid', 'refunded')),
+      payment_provider TEXT,
+      payment_ref TEXT,
+      amount_paise INTEGER,
+      hold_expires_at TIMESTAMPTZ,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    )`;
+    // the guard against double booking: one live appointment per doctor per start time
+    await q`CREATE UNIQUE INDEX IF NOT EXISTS clinic_appointments_slot ON clinic_appointments (doctor_id, starts_at)
+      WHERE status IN ('pending_payment', 'confirmed')`;
     // the first time, copy in the doctors the site launched with, so the admin starts from them;
     // after that the table is the only list, so deleting a doctor keeps them deleted
     const seeded = await q`SELECT 1 FROM clinic_meta WHERE key = 'doctors_seeded'`;

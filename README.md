@@ -20,6 +20,7 @@ npm run build && npm start
 | `/clinics`, `/clinics/[slug]` | The six speciality clinics and Gloveda Revive |
 | `/therapies` | Pizhichil, Shirodhara, Abhyanga, Elakizhi, Njavarakizhi, Udwarthana |
 | `/book` | Three-step consultation request (`?care=<clinic-slug>` preselects) |
+| `/consult`, `/consult/[ref]` | Online consultation by Google Meet: booking, and the patient's own appointment page |
 | `/journal`, `/journal/[slug]`, `/journal/rss.xml` | The blog |
 | `/visit`, `/privacy` | Address and contact; privacy draft |
 
@@ -42,6 +43,27 @@ within five minutes. The built-in therapies and articles stay in code; the admin
   with the six launch doctors from `src/lib/site.ts`; after that the admin's list is the only one.
 - **Clinics**: tick the therapies listed under "Therapies the doctor may recommend" on each clinic, built-in ones included.
 - Roles: editors manage doctors, clinics, treatments and articles; admins also manage accounts.
+
+## Online consultations (/consult)
+
+A patient chooses a doctor and a real free slot and is confirmed at once: the appointment is saved,
+a Google Calendar event with a Meet link is created on the clinic's Google account (patient and
+doctor invited), and confirmation emails go out. The emailed link opens `/consult/<ref>`, where the
+patient can join, add it to their calendar, move it or cancel it (until two hours before).
+
+- Slots (`src/lib/slots.ts`) = the doctor's weekly online hours − days off − booked appointments −
+  anything else on the clinic calendar, with three hours' notice and a 21-day window. India time.
+- A unique database index makes double booking impossible; the Google event is created after the
+  slot is taken, and the slot is released if Google fails (`src/lib/appointments.ts`).
+- Admin: **Doctors** (each doctor's email, hours, slot length, fee, days off), **Consultations**
+  (join, move, cancel, mark completed, download a spreadsheet), **Settings** (connect Google).
+- Payments are off. `src/lib/payments.ts` defines the provider interface and the table already has
+  the payment columns and a `pending_payment` hold, so a gateway (Razorpay) is one adapter plus a webhook.
+- Pappyjoe has no public API, so appointments are not pushed to it; use the spreadsheet download, or
+  ask Pappyjoe for API access.
+- Development needs no Google account: bookings get a placeholder Meet link and emails print in the terminal.
+
+Setup: `docs/ENV.md`, section 6.
 
 ## Booking
 

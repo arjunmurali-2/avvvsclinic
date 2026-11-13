@@ -25,6 +25,7 @@ export function Footer() {
               <li><Link href="/doctors">Doctors</Link></li>
               <li><Link href="/journal">Journal</Link></li>
               <li><Link href="/book">Book a consultation</Link></li>
+              <li><Link href="/consult">Online consultation</Link></li>
               <li><Link href="/visit">Visit</Link></li>
             </ul>
           </nav>

@@ -25,6 +25,7 @@ export default function Privacy() {
         </> },
         { id: 'collect', title: 'What we collect', body: <>
           <p><b>When you book a consultation</b>, the form asks for the care you are looking for, a preferred day and time of day, your name and phone number, and, if you choose to give them, your email address, age, whether you have visited before, and a note for the doctor.</p>
+          <p><b>When you book an online consultation</b>, the form asks for the doctor and time you chose, your name, phone number, email address and, if you give them, your age and a note for the doctor. The appointment is stored in the clinic’s database and added to the clinic’s Google Calendar with a Google Meet link; you and the doctor are invited by email. The clinic does not record video consultations.</p>
           <p>A note for the doctor may describe your health. Please share only what helps the clinic arrange your appointment, and bring medical reports to the consultation rather than sending them through the website.</p>
           <p><b>When you browse</b>, the website’s host keeps short-lived technical logs (such as IP address and browser type) to run and secure the site. With your consent, Google Analytics and the Meta Pixel also collect usage information, as described under Cookies below.</p>
         </> },
@@ -45,6 +46,8 @@ export default function Privacy() {
             <li><b>The clinic’s team</b>, who arrange and confirm appointments.</li>
             <li><b>Our email provider</b>, which carries the booking request to the clinic’s inbox.</li>
             <li><b>Our website host</b> (Vercel), which runs the site and keeps short technical logs.</li>
+            <li><b>Google</b> (Calendar and Meet), which holds the calendar event and runs the video call for an online consultation.</li>
+            <li><b>Our database provider</b> (Neon), which stores online consultation appointments.</li>
             <li><b>Google</b> (Analytics) and <b>Meta</b> (Pixel), only if you allow them. They never receive what you type in the booking form.</li>
           </ul>
           <p>Some of these providers process data outside India. We share only what each needs to provide its service.</p>
@@ -58,7 +61,7 @@ export default function Privacy() {
           <p>Optional tags do not load until you allow them. You can change your choice at any time in <CookieSettingsLink label="cookie settings" />.</p>
         </> },
         { id: 'keep', title: 'How long we keep it', body: <>
-          <p>Booking requests are kept in the clinic’s email for as long as needed to arrange and follow up your care, and then deleted, unless the law requires us to keep them longer. Analytics data is kept for 14 months.</p>
+          <p>Online consultation appointments are kept for as long as needed for your care and the clinic’s records. Booking requests are kept in the clinic’s email for as long as needed to arrange and follow up your care, and then deleted, unless the law requires us to keep them longer. Analytics data is kept for 14 months.</p>
         </> },
         { id: 'rights', title: 'Your rights', body: <>
           <p>Under the Digital Personal Data Protection Act, 2023, you can ask us for a summary of the personal data we hold about you, ask us to correct, complete or erase it, withdraw your consent, and nominate someone to exercise these rights for you. Write to {mail} or call {CLINIC.phones[0]}; we reply within 30 days.</p>

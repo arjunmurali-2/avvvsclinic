@@ -16,6 +16,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   return ([
     { url: abs('/'), lastModified: now, changeFrequency: 'weekly', priority: 1, images: img('/photos/shirodhara.jpg') },
     { url: abs('/book'), lastModified: now, changeFrequency: 'monthly', priority: 0.9 },
+    { url: abs('/consult'), lastModified: now, changeFrequency: 'monthly', priority: 0.9 },
     { url: abs('/clinics'), lastModified: now, changeFrequency: 'monthly', priority: 0.9 },
     ...CLINICS.map((c) => ({ url: abs(`/clinics/${c.slug}`), lastModified: now, changeFrequency: 'monthly' as const, priority: 0.9, images: img(c.image.src) })),
     { url: abs(`/clinics/${REVIVE.slug}`), lastModified: now, changeFrequency: 'monthly', priority: 0.8, images: img('/photos/hairoil.jpg') },

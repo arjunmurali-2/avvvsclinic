@@ -28,6 +28,11 @@ export default function Terms() {
           <p>The booking form sends a request with your preferred day and time. An appointment is confirmed only when the clinic contacts you. The clinic may suggest another time or doctor. To change or cancel a request, call <a href={tel(CLINIC.phones[0])}>{CLINIC.phones[0]}</a> or {CLINIC.phones[1]}.</p>
           <p>Please give accurate contact details and book only for yourself, or for someone you are authorised to book for.</p>
         </> },
+        { id: 'online', title: 'Online consultations', body: <>
+          <p>An online consultation is a video call with one of the clinic’s doctors on Google Meet, booked for a time you choose. It is confirmed when you receive the confirmation email. You can change or cancel it up to two hours before it starts from the link in that email; after that, please call the clinic.</p>
+          <p>On a video call the doctor cannot examine you in person. The doctor decides whether your concern can be handled online, and may ask you to visit the clinic or another doctor instead. Please be truthful about who you are and about your health, join from a private place, and do not record the call without the doctor’s agreement.</p>
+          <p>Online consultations are not for emergencies. If a fee applies, it is shown before you book, and the clinic will tell you how to pay it.</p>
+        </> },
         { id: 'care', title: 'Treatment', body: <>
           <p>Any therapy or treatment is recommended by a doctor after a consultation, and depends on your health and history. Results vary from person to person, and the clinic does not promise any particular outcome. Fees and treatment details are explained at the clinic.</p>
         </> },

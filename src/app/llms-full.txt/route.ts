@@ -31,6 +31,7 @@ export async function GET() {
 - Phone: ${CLINIC.phones.join(', ')}
 - Email: ${CLINIC.email}
 - Book: ${abs('/book')} (a request; the clinic calls to confirm a time)
+- Online consultation by video (Google Meet): ${abs('/consult')} (choose a doctor and a time; confirmed at once by email; not for emergencies)
 - Part of ${CLINIC.legal} (AVVVS), an Ayurveda institution founded in Kozhikode in ${FOUNDED}: ${PARENT_URL}
 - The clinic's information is general and is not medical advice. It does not promise treatment outcomes.
 

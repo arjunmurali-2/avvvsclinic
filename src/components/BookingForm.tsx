@@ -90,6 +90,7 @@ export function BookingForm() {
   return (
     <div className="bk" ref={top}>
       <div className="bk-top">
+        <p className="choice"><Link href="/book" aria-current="page">Visit the clinic</Link><Link href="/consult">Online by video</Link></p>
         <h1 className="t-1">Book a consultation.</h1>
         <p className="lede">Tell us what you need and when you would like to come. The clinic calls back to confirm your appointment.</p>
       </div>

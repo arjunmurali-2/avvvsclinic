@@ -73,7 +73,7 @@ export function Header() {
       </div>
       <div className="sheet" id="menu" hidden={!open}>
         <ul>
-          {[{ href: '/', label: 'Home' }, ...NAV, { href: '/book', label: 'Book a consultation' }].map((n, i) => (
+          {[{ href: '/', label: 'Home' }, ...NAV, { href: '/book', label: 'Book a consultation' }, { href: '/consult', label: 'Online consultation' }].map((n, i) => (
             <li key={n.href} style={{ '--i': i } as React.CSSProperties}>
               <Link className="sheet-link" href={n.href} onClick={() => setOpen(false)}>{n.label}</Link>
             </li>

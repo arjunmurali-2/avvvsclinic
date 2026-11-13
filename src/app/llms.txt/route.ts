@@ -24,6 +24,7 @@ Full text of the site: ${abs('/llms-full.txt')}
 - Phone: ${CLINIC.phones.join(', ')}
 - Email: ${CLINIC.email}
 - Book a consultation: ${abs('/book')} (the clinic calls back to confirm a time)
+- Online consultation by video (Google Meet): ${abs('/consult')} (choose a doctor and a time; confirmed at once by email)
 - Pain Management Clinic guided by ${DOCTOR.name} (${DOCTOR.qualifications.join(', ')})
 
 ## Doctors

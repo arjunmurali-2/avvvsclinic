@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Close, Crumbs, JsonLd, More } from '@/components/Parts';
 import { getDoctor, getDoctors } from '@/lib/content';
+import { hasDatabase } from '@/lib/db';
+import { onlineDoctorBySlug } from '@/lib/slots';
 import { breadcrumbLd, physicianLd } from '@/lib/ld';
 import { CLINIC, DOCTORS, alternatesFor, tel } from '@/lib/site';
 
@@ -31,6 +33,7 @@ export default async function DoctorPage({ params }: { params: Promise<{ slug: s
   const slug = (await params).slug;
   const [d, all] = await Promise.all([getDoctor(slug), getDoctors()]);
   if (!d) notFound();
+  const online = hasDatabase() ? !!(await onlineDoctorBySlug(slug).catch(() => undefined)) : false;
   const roleLink = d.role ? ROLE_LINKS[d.role] : undefined;
   const others = all.filter((x) => x.slug !== d.slug);
 
@@ -49,6 +52,7 @@ export default async function DoctorPage({ params }: { params: Promise<{ slug: s
             <p className="muted" data-answer>{summary(d)}</p>
             <div className="actions" style={{ justifyContent: 'flex-start' }}>
               <Link className="btn" href="/book">Book a consultation</Link>
+              {online && <Link className="more" href={`/consult?doctor=${d.slug}`}>Consult online by video</Link>}
               <a className="more" href={tel(CLINIC.phones[0])}>Call {CLINIC.phones[0]}</a>
             </div>
           </div>

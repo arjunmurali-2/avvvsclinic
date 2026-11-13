@@ -28,6 +28,10 @@ export const HOME_FAQ: QA[] = [
     a: 'Yes, where it helps. The Pain Management Clinic combines Ayurvedic therapies with modern medical care under Dr. Ranjith Kumar (BAMS, MBBS, DA, MD), and the Obesity and Lifestyle Management Clinic uses modern body-contouring technologies alongside Udwarthana.',
   },
   {
+    q: 'Can I consult a doctor online?',
+    a: 'Yes. Book an online consultation at clinic.avvvs.com/consult: choose a doctor and a free time, and a Google Meet video link is emailed to you at once. Online consultations are not for emergencies.',
+  },
+  {
     q: 'How do I book a consultation?',
     a: `Book online at clinic.avvvs.com/book, choosing the care you need and a preferred day and time; the clinic calls back to confirm. Or call ${CLINIC.phones[0]} or email ${CLINIC.email}.`,
   },
