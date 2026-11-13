@@ -41,7 +41,7 @@ export default async function Home() {
 
       <section className="sec" aria-label="About the clinic">
         <p className="statement" data-fill data-answer>
-          Specialised care for headaches, chronic pain, obesity, lifestyle disorders, fertility, skin and hair, and mothers before and after birth. Traditional Kerala Ayurveda, with modern medicine where it helps.
+          Specialised care for pain management, lifestyle disorders, obesity, infertility, skin and hair concerns, and maternal health, rooted in the timeless wisdom of Kerala Ayurveda, with a commitment to promoting healthy ageing, youthful vitality and longevity.
         </p>
         <ul className="facts" data-stagger>
           <li><b><span data-count={YEARS}>{YEARS}</span></b><span>years of AVVVS Ayurveda, since {FOUNDED}</span></li>
