@@ -206,6 +206,15 @@ export function ensureSchema() {
         WHERE slug = 'rekha-deepak' AND quals = ${['BAMS']}`;
       await q`INSERT INTO clinic_meta (key, value) VALUES ('doctors_rev_2026_11_13', now()::text) ON CONFLICT (key) DO NOTHING`;
     }
+    // 2026-11-13: a seventh doctor joined after launch. Added once, at the end of the list;
+    // if she is later deleted in the admin she stays deleted.
+    const added = await q`SELECT 1 FROM clinic_meta WHERE key = 'doctor_added_niyatha_kaloor'`;
+    if (!added.length) {
+      await q`INSERT INTO clinic_doctors (slug, name, quals, role, photo_url, sort)
+        VALUES ('niyatha-kaloor', 'Dr. Niyatha Kaloor', ${['MBBS']}, '', '/doctors/niyatha-kaloor.jpg',
+          (SELECT COALESCE(MAX(sort), 0) + 10 FROM clinic_doctors)) ON CONFLICT (slug) DO NOTHING`;
+      await q`INSERT INTO clinic_meta (key, value) VALUES ('doctor_added_niyatha_kaloor', now()::text) ON CONFLICT (key) DO NOTHING`;
+    }
   })().catch((e) => { ready = null; throw e; });
   return ready;
 }

@@ -56,4 +56,5 @@ export const DOCTORS = [
   { slug: 'ranjith-kumar', name: 'Dr. Ranjith Kumar', quals: ['BAMS', 'MBBS', 'DA', 'MD'], role: 'Pain Management Clinic' },
   { slug: 'rekha-deepak', name: 'Dr. Rekha Deepak', quals: ['BAMS', 'MPH'] },
   { slug: 'archana-manoj', name: 'Dr. Archana Manoj', quals: ['BAMS', 'PGDAC'] },
+  { slug: 'niyatha-kaloor', name: 'Dr. Niyatha Kaloor', quals: ['MBBS'] },
 ] as { slug: string; name: string; quals: string[]; role?: string }[];
