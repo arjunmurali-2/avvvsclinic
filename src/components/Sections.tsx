@@ -52,7 +52,7 @@ export async function Doctors({ tone = '', page = false }: { tone?: string; page
     <section className={`sec ${tone}`} aria-labelledby="doctors-title" style={page ? { paddingTop: 'clamp(40px, 6vh, 72px)' } : undefined}>
       <div className="in center head">
         <H id="doctors-title" className="t-1" data-reveal data-now={page ? '' : undefined}>Meet the doctors.</H>
-        <p className="lede" data-reveal data-delay="80">Ayurvedic physicians, and modern medicine where it helps, under one roof.</p>
+        <p className="lede" data-reveal data-delay="80">Authentic Ayurvedic expertise, complemented by modern medical care whenever needed, all under one roof.</p>
       </div>
       <ul className="docs" data-stagger>
         {doctors.map((d) => (

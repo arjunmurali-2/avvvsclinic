@@ -31,7 +31,7 @@ export function TherapyGallery({ items }: { items: Therapy[] }) {
         {items.map((t) => (
           <li key={t.slug} className="g-card">
             <div className="g-img">
-              <Image src={t.img} alt="" width={760} height={950} sizes="(min-width: 600px) 420px, 82vw" style={{ objectPosition: t.pos }} />
+              <Image src={t.img!} alt="" width={760} height={950} sizes="(min-width: 600px) 420px, 82vw" style={{ objectPosition: t.pos }} />
             </div>
             <div className="g-copy">
               <h3>{t.name}</h3>

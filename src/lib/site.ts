@@ -48,12 +48,12 @@ export const DOCTOR = {
   role: 'Pain Management Clinic',
 };
 
-/** The clinic's doctors, as the clinic listed them (2026-11-08). Roles only where the clinic has stated one. */
+/** The clinic's doctors, as the clinic listed them (2026-11-08, revised 2026-11-13). Roles only where the clinic has stated one. */
 export const DOCTORS = [
   { slug: 'manoj-kaloor', name: 'Dr. Manoj Kaloor', quals: ['BAMS', 'MD (Ayu)'], role: 'Managing Director, AVVVS' },
-  { slug: 'reeja-manoj', name: 'Dr. Reeja Manoj', quals: ['BAMS', 'FMC'] },
+  { slug: 'reeja-manoj', name: 'Dr. Reeja Manoj', quals: ['BAMS', 'FMC', 'PGDDF'], role: 'Medical Director, AVVVS' },
   { slug: 'henna-kunhabdhulla', name: 'Dr. Henna Kunhabdhulla', quals: ['BAMS', 'FMC'] },
   { slug: 'ranjith-kumar', name: 'Dr. Ranjith Kumar', quals: ['BAMS', 'MBBS', 'DA', 'MD'], role: 'Pain Management Clinic' },
-  { slug: 'rekha-deepak', name: 'Dr. Rekha Deepak', quals: ['BAMS'] },
+  { slug: 'rekha-deepak', name: 'Dr. Rekha Deepak', quals: ['BAMS', 'MPH'] },
   { slug: 'archana-manoj', name: 'Dr. Archana Manoj', quals: ['BAMS', 'PGDAC'] },
 ] as { slug: string; name: string; quals: string[]; role?: string }[];

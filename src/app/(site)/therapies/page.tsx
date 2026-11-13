@@ -2,13 +2,13 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Close, Crumbs, Faq, JsonLd } from '@/components/Parts';
-import { clinicName, getPosts, getTherapies } from '@/lib/content';
+import { getPosts, getTherapies } from '@/lib/content';
 import { breadcrumbLd, itemListLd, medicalPageLd, therapiesLd } from '@/lib/ld';
 import { alternatesFor } from '@/lib/site';
 
 export const revalidate = 300;
 
-const DESCRIPTION = 'Authentic Kerala Panchakarma at AVVVS Ayur Speciality Clinic, Kozhikode: Pizhichil, Shirodhara, Abhyanga, Elakizhi, Njavarakizhi and Udwarthana, with treatments for rejuvenation and healthy ageing.';
+const DESCRIPTION = 'Authentic Kerala Panchakarma at AVVVS Ayur Speciality Clinic, Kozhikode: Pizhichil, Shirodhara, Abhyanga, Elakizhi, Njavarakizhi, Udwarthana and more, with treatments for rejuvenation and healthy ageing.';
 
 export const metadata: Metadata = {
   title: 'Panchakarma and Kerala therapies in Kozhikode (Calicut)',
@@ -33,20 +33,18 @@ export default async function TherapiesPage() {
 
       <section className="sec" style={{ paddingTop: 'clamp(24px, 3vw, 48px)' }} aria-label="The therapies">
         <div className="th">
-          {therapies.map((t) => {
-            const clinics = t.clinics ?? [];
+          {therapies.filter((t) => t.img).map((t) => {
             const reading = posts.filter((p) => p.treatments?.includes(t.slug));
             return (
               <article key={t.slug} id={t.slug} className="th-item">
                 <figure className="th-pic" data-reveal>
-                  <Image src={t.img} alt="" width={1200} height={1500} sizes="(min-width: 860px) 50vw, 100vw" style={{ objectPosition: t.pos }} />
+                  <Image src={t.img!} alt="" width={1200} height={1500} sizes="(min-width: 860px) 50vw, 100vw" style={{ objectPosition: t.pos }} />
                 </figure>
                 <div className="th-copy" data-reveal data-delay="100">
                   <h2 className="t-2"><Link href={`/therapies/${t.slug}`} style={{ color: 'inherit' }}>{t.name}</Link></h2>
                   {t.ml && <span className="g-ml" lang="ml">{t.ml}</span>}
                   <p>{t.what}</p>
                   {t.how && <p className="muted">{t.how}</p>}
-                  {clinics.length > 0 && <p className="small">Offered in {and(clinics.map((c) => <Link key={c} href={`/clinics/${c}`}>{clinicName(c)}</Link>))}.</p>}
                   {reading.length > 0 && <p className="small">Read: {and(reading.map((p) => <Link key={p.slug} href={`/journal/${p.slug}`}>{p.title}</Link>))}.</p>}
                   <p className="small"><Link href={`/therapies/${t.slug}`}>{t.name} at the clinic</Link></p>
                 </div>
@@ -56,7 +54,25 @@ export default async function TherapiesPage() {
         </div>
       </section>
 
-      <Faq title="About the therapies." tone="mist" items={[
+      {therapies.some((t) => !t.img) && (
+        <section className="sec mist" aria-labelledby="more-title">
+          <div className="in center head">
+            <h2 id="more-title" className="t-2" data-reveal>More therapies and treatments.</h2>
+            <p className="lede" data-reveal data-delay="80">Prescribed by the doctor as part of a plan, after a consultation.</p>
+          </div>
+          <ul className="cols3 th-more" data-stagger>
+            {therapies.filter((t) => !t.img).map((t) => (
+              <li key={t.slug} id={t.slug}>
+                <h3><Link href={`/therapies/${t.slug}`} style={{ color: 'inherit' }}>{t.name}</Link></h3>
+                {t.ml && <span className="g-ml" lang="ml">{t.ml}</span>}
+                <p>{t.what}</p>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      <Faq title="About the therapies." items={[
         { q: 'What is Panchakarma?', a: 'Panchakarma is the classical Ayurvedic system of five cleansing procedures. In Kerala the word is often used more widely, for the therapies that prepare for and accompany it, such as Pizhichil, Shirodhara, Elakizhi and Njavarakizhi.' },
         ...therapies.map((t) => ({ q: `What is ${t.name}?`, a: `${t.name}${t.ml ? ` (${t.ml})` : ''} is ${t.what.charAt(0).toLowerCase()}${t.what.slice(1)}` })),
         { q: 'Can I book a therapy without a consultation?', a: 'Therapies are chosen by the doctor after a consultation, so book a consultation first and choose “Panchakarma and rejuvenation”.' },

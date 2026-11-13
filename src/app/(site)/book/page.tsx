@@ -20,7 +20,7 @@ export default function BookPage() {
       </Suspense>
       <Faq title="Before you book." items={[
         { q: 'Is my appointment confirmed when I send the form?', a: 'Not yet. The form sends your request and preferred time to the clinic, and the clinic calls you to confirm the exact time.' },
-        { q: 'What should I bring?', a: 'A list of the medicines and supplements you take, and any recent test results, scans or discharge summaries.' },
+        { q: 'What should I bring for my first consultation?', a: 'A list of the medicines and supplements you take, and any recent test results, scans or discharge summaries.' },
         { q: 'Can I book by phone?', a: `Yes. Call ${CLINIC.phones.join(' or ')}, or email ${CLINIC.email}.` },
       ]} />
       <JsonLd data={breadcrumbLd([{ name: 'Book a consultation', path: '/book' }])} />

@@ -51,7 +51,7 @@ export function ResetLinks() {
   return (
     <div className="ad-stack" style={{ justifyItems: 'end' }}>
       <button type="button" className="ad-btn ad-btn-quiet" disabled={pending}
-        onClick={() => { if (confirm('Put the six built-in therapies back on their original clinics? Treatments added here are not changed.')) start(async () => { setMsg(await resetBuiltInLinks()); location.reload(); }); }}>
+        onClick={() => { if (confirm('Put the built-in therapies back on their original clinics? Treatments added here are not changed.')) start(async () => { setMsg(await resetBuiltInLinks()); location.reload(); }); }}>
         Restore the original links
       </button>
       <Note s={msg} />

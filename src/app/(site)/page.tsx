@@ -20,7 +20,7 @@ export default async function Home() {
       <section className="hero" aria-labelledby="hero-title">
         <div className="hero-copy">
           <h1 id="hero-title" className="t-hero" data-reveal data-now>Rediscover health.</h1>
-          <p className="lede" data-reveal data-now data-delay="120">Over a century of authentic Kerala Ayurveda, now personal care in the heart of Kozhikode.</p>
+          <p className="lede" data-reveal data-now data-delay="120">Over a century of Kerala’s authentic Ayurvedic heritage, bringing personalised healing to the heart of Kozhikode.</p>
           <div className="actions" data-reveal data-now data-delay="240">
             <Link className="btn" href="/book">Book a consultation</Link>
             <More href="/clinics">Explore the clinics</More>
@@ -46,13 +46,13 @@ export default async function Home() {
         <ul className="facts" data-stagger>
           <li><b><span data-count={YEARS}>{YEARS}</span></b><span>years of AVVVS Ayurveda, since {FOUNDED}</span></li>
           <li><b>{CLINICS.length + 1}</b><span>speciality clinics under one roof</span></li>
-          <li><b>{therapies.length}</b><span>Kerala therapies, given by hand</span></li>
+          <li><b>{therapies.length}</b><span>Ayurvedic therapies and treatments</span></li>
         </ul>
       </section>
 
       <section className="sec mist" aria-labelledby="clinics-title" style={{ paddingTop: 'clamp(80px, 9vw, 130px)' }}>
         <div className="in center head">
-          <h2 id="clinics-title" className="t-1" data-reveal>Care for what brought you here.</h2>
+          <h2 id="clinics-title" className="t-1" data-reveal>Find the care you need.</h2>
           <p className="lede" data-reveal data-delay="80">Every clinic begins with a consultation and a plan written for you.</p>
         </div>
         <ClinicTiles />
@@ -61,9 +61,9 @@ export default async function Home() {
       <section className="sec night on-night" aria-labelledby="therapies-title">
         <div className="in center head">
           <h2 id="therapies-title" className="t-1" data-reveal>Kerala’s classical therapies.</h2>
-          <p className="lede" data-reveal data-delay="80">Authentic Panchakarma, given by hand, with oils from a pharmacy that has made Ayurveda medicines in Kozhikode since {FOUNDED}.</p>
+          <p className="lede" data-reveal data-delay="80">Authentic Panchakarma, given by hand, with oils from a healthcare institution that has made Ayurveda medicines in Kozhikode since {FOUNDED}.</p>
         </div>
-        <TherapyGallery items={therapies} />
+        <TherapyGallery items={therapies.filter((t) => t.img)} />
       </section>
 
       <section className="sec" aria-labelledby="care-title">
@@ -73,7 +73,7 @@ export default async function Home() {
           </figure>
           <div className="split-copy" data-reveal>
             <h2 id="care-title" className="t-1">Ayurveda and modern medicine, in one room.</h2>
-            <p className="lede">The Pain Management Clinic combines Ayurvedic therapies with modern medical care, in a personalised plan to manage pain, improve mobility and get back to living more comfortably.</p>
+            <p className="lede">The Pain Management Clinic combines Ayurvedic therapies with modern medical care, to manage pain, improve mobility and get back to living more comfortably.</p>
             <p className="doctor"><b>{DOCTOR.name}</b><span>{DOCTOR.qualifications.join(' · ')}</span></p>
             <More href="/clinics/pain-management-clinic">About the Pain Management Clinic</More>
           </div>

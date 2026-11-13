@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!t) return {};
   const title = `${t.name} in Kozhikode (Calicut)`;
   const description = `${t.name}${t.ml ? ` (${t.ml})` : ''} at ${CLINIC.name}, opposite Kozhikode Railway Station: ${lower(t.what)}`.slice(0, 300);
-  return { title, description, alternates: alternatesFor(`/therapies/${t.slug}`), openGraph: { url: `/therapies/${t.slug}`, title: `${title} · AVVVS`, description, images: [{ url: t.img, alt: t.name }] } };
+  return { title, description, alternates: alternatesFor(`/therapies/${t.slug}`), openGraph: { url: `/therapies/${t.slug}`, title: `${title} · AVVVS`, description, ...(t.img ? { images: [{ url: t.img, alt: t.name }] } : {}) } };
 }
 
 export default async function TherapyPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -30,7 +30,7 @@ export default async function TherapyPage({ params }: { params: Promise<{ slug: 
   if (!t) notFound();
   const clinics = t.clinics ?? [];
   const reading = posts.filter((p) => p.treatments?.includes(t.slug));
-  const others = all.filter((x) => x.slug !== t.slug).slice(0, 3);
+  const others = all.filter((x) => x.slug !== t.slug && x.img).slice(0, 3);
   const answer = `${t.name}${t.ml ? ` (${t.ml})` : ''} is ${lower(t.what)} It is available at ${CLINIC.name}, on the 3rd floor of Kaloor Central, opposite Kozhikode Railway Station, after a consultation with the clinic’s doctor.`;
 
   const faq = [
@@ -54,11 +54,11 @@ export default async function TherapyPage({ params }: { params: Promise<{ slug: 
       </section>
 
       <section className="sec" style={{ paddingTop: 'clamp(16px, 2vw, 32px)' }} aria-label={`About ${t.name}`}>
-        <article className="th-item">
-          <figure className="th-pic" data-reveal>
+        <article className={t.img ? 'th-item' : 'prose'}>
+          {t.img && <figure className="th-pic" data-reveal>
             <Image src={t.img} alt={`${t.name} at AVVVS Ayur Speciality Clinic`} width={1200} height={1500} priority sizes="(min-width: 860px) 50vw, 100vw" style={{ objectPosition: t.pos }} />
-          </figure>
-          <div className="th-copy" data-reveal data-delay="100">
+          </figure>}
+          <div className={t.img ? 'th-copy' : undefined} data-reveal data-delay="100">
             <p data-answer>{answer}</p>
             {t.how && <p className="muted">{t.how}</p>}
             {clinics.length > 0 && (
@@ -81,7 +81,7 @@ export default async function TherapyPage({ params }: { params: Promise<{ slug: 
           {others.map((o) => (
             <li key={o.slug} className="post">
               <Link href={`/therapies/${o.slug}`} className="post-img" tabIndex={-1} aria-hidden="true">
-                <Image src={o.img} alt="" width={900} height={600} sizes="(min-width: 900px) 33vw, 100vw" style={{ objectPosition: o.pos }} />
+                <Image src={o.img!} alt="" width={900} height={600} sizes="(min-width: 900px) 33vw, 100vw" style={{ objectPosition: o.pos }} />
               </Link>
               <h3><Link href={`/therapies/${o.slug}`}>{o.name}</Link></h3>
               <p className="post-meta">{o.what}</p>

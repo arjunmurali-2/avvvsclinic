@@ -1,5 +1,5 @@
 import { CLINIC } from './site';
-import { THERAPIES } from './therapies';
+import { PICTURED } from './therapies';
 import type { QA } from './clinics';
 
 // The clinic's Journal. Written for general information, never as medical advice, and without
@@ -46,12 +46,12 @@ export const POSTS: Post[] = [
     kind: 'Visiting the clinic',
     minutes: 5,
     published: '2026-11-08',
-    revised: '2026-11-08',
+    revised: '2026-11-13',
     cover: { src: '/photos/pulse.jpg', alt: 'A doctor reading a patient’s pulse at the wrist', position: '55% 50%' },
     answer: 'A first Ayurveda consultation is an unhurried conversation and examination. The doctor asks about your concern, your health history, diet, digestion, sleep and routine, examines you, and then explains a personalised plan, which may include medicines, therapies, diet and lifestyle changes.',
     blocks: [
       { t: 'p', text: 'Ayurveda looks at the person before the complaint. That is why the first visit to AVVVS Ayur Speciality Clinic takes longer than a quick prescription, and why the questions reach well past the reason you came.' },
-      { t: 'h2', text: 'Before you come' },
+      { t: 'h2', text: 'Before you come, make sure to bring' },
       { t: 'ul', items: [
         'A list of every medicine and supplement you take, with doses.',
         'Recent test results, scans and discharge summaries, on paper or on your phone.',
@@ -61,7 +61,7 @@ export const POSTS: Post[] = [
       { t: 'ol', items: [
         { h: 'Your story', p: 'What brings you in, in your own words, and how it affects your days and nights.' },
         { h: 'Your history', p: 'Past illnesses, surgeries, family health, and for women, menstrual and pregnancy history.' },
-        { h: 'Your day', p: 'Food, appetite, digestion, sleep, work, exercise and stress: the patterns Ayurveda pays closest attention to.' },
+        { h: 'Your day', p: 'Food, appetite, bowel and bladder habits, sleep, work, exercise, allergies, addictions and stress: the patterns Ayurveda pays closest attention to.' },
         { h: 'Examination', p: 'A physical examination, which in Ayurveda traditionally includes reading the pulse, and looking at the tongue, skin and eyes.' },
         { h: 'Your plan', p: 'The doctor explains what they think is going on and proposes a plan. Ask anything; a good plan is one you understand.' },
       ] },
@@ -82,12 +82,12 @@ export const POSTS: Post[] = [
     treatments: ['pizhichil', 'shirodhara', 'abhyanga', 'elakizhi', 'njavarakizhi', 'udwarthana'],
     minutes: 6,
     published: '2026-11-08',
-    revised: '2026-11-08',
+    revised: '2026-11-13',
     cover: { src: '/photos/elakizhi.jpg', alt: 'Herbal leaf poultices warming in a brass pan', position: '50% 50%' },
-    answer: 'Kerala’s classical Ayurvedic therapies are hands-on treatments with warm medicated oils, herbal poultices and powders. At AVVVS Ayur Speciality Clinic they include Pizhichil, Shirodhara, Abhyanga, Elakizhi, Njavarakizhi and Udwarthana, each chosen by the doctor after a consultation.',
+    answer: 'Kerala’s classical Ayurvedic therapies are hands-on treatments with warm medicated oils, herbal poultices and powders. At AVVVS Ayur Speciality Clinic they include Pizhichil, Shirodhara, Abhyanga, Elakizhi, Njavarakizhi, Udwarthana and many more, each chosen by the doctor after a consultation.',
     blocks: [
       { t: 'p', text: 'Kerala gave Ayurveda some of its most distinctive treatments: therapies built around warm oil, medicinal leaves and rice, and the trained hands of therapists working in rhythm. They are given at AVVVS Ayur Speciality Clinic with oils and preparations from a pharmacy that has made Ayurveda medicines in Kozhikode since 1921.' },
-      ...THERAPIES.flatMap((t): Block[] => [
+      ...PICTURED.flatMap((t): Block[] => [
         { t: 'h2', text: `${t.name} (${t.ml})` },
         { t: 'p', text: `${t.what} ${t.how}` },
       ]),
@@ -108,11 +108,11 @@ export const POSTS: Post[] = [
     kind: 'Headache Clinic',
     minutes: 5,
     published: '2026-11-08',
-    revised: '2026-11-08',
+    revised: '2026-11-13',
     cover: { src: '/photos/shirodhara.jpg', alt: 'Shirodhara, warm oil streaming onto the forehead', position: '30% 50%' },
-    answer: 'Most recurring headaches are migraine, tension, cluster or sinus headaches. A sudden, severe headache, or one with fever and a stiff neck, weakness, confusion or loss of vision, needs emergency care first. For persistent headaches, the AVVVS Headache Clinic offers personalised Ayurvedic care.',
+    answer: 'Most recurring and persistent headaches are migraine, tension-type headaches, cluster headaches or sinus headaches. A sudden, severe headache, often described as the worst headache of one’s life, or one with fever and a stiff neck, weakness, confusion or loss of vision, needs emergency care first. For persistent headaches, the AVVVS Headache Clinic offers personalised Ayurvedic treatments.',
     blocks: [
-      { t: 'note', h: 'First, the warning signs', text: 'Go to an emergency department at once for a sudden, severe headache unlike any before; a headache with fever and a stiff neck; with confusion, weakness, numbness or difficulty speaking; with loss of vision; or after a head injury.' },
+      { t: 'note', h: 'First, the warning signs', text: 'Go to an emergency department at once in case of a sudden, severe headache unlike any before; a headache with fever and a stiff neck; with confusion, weakness, numbness or difficulty speaking; with loss of vision; or after a head injury.' },
       { t: 'h2', text: 'The four common kinds' },
       { t: 'ol', items: [
         { h: 'Migraine', p: 'Recurring, often one-sided and throbbing, sometimes with nausea or sensitivity to light and sound.' },
@@ -120,11 +120,11 @@ export const POSTS: Post[] = [
         { h: 'Cluster headache', p: 'Short bouts of severe pain around one eye, coming in groups over days or weeks.' },
         { h: 'Sinus headache', p: 'Pressure around the forehead, eyes and cheeks, often with congestion.' },
       ] },
-      { t: 'h2', text: 'How Ayurveda approaches headache' },
-      { t: 'p', text: 'Ayurveda focuses on identifying underlying imbalances and managing symptoms through personalised treatments, therapies and lifestyle modifications. At the Headache Clinic that starts with a consultation about the pattern of your headaches, your sleep, diet, work and stress.' },
+      { t: 'h2', text: 'How Ayurveda approaches headaches' },
+      { t: 'p', text: 'Ayurveda aims to understand the factors that may be contributing to your headaches and manage them through suitable treatments, therapies and lifestyle changes. At the Headache Clinic, your first consultation begins with understanding your headache patterns, sleep, diet, daily routine and stress levels.' },
       { t: 'h2', text: 'Keep a headache diary' },
-      { t: 'p', text: 'Two or three weeks of notes make a first consultation far more useful:' },
-      { t: 'ul', items: ['When each headache started and how long it lasted', 'Where it was, and what it felt like', 'What you had eaten, how you had slept, and what you were doing', 'What you took for it, and whether it helped'] },
+      { t: 'p', text: 'Keeping a record for two to three weeks can help your doctor better understand your headaches and identify possible triggers. Make a note of:' },
+      { t: 'ul', items: ['When each headache starts and how long it lasts.', 'Where you feel the pain and what it feels like.', 'Your meals, sleep and activities before the headache.', 'Any medicines you take and whether they provide relief.'] },
     ],
     faq: [
       { q: 'When is a headache an emergency?', a: 'A sudden, severe headache unlike any before, or a headache with fever and a stiff neck, confusion, weakness, numbness, loss of vision, or after a head injury, needs emergency care at once.' },
@@ -139,7 +139,7 @@ export const POSTS: Post[] = [
     kind: 'Visiting the clinic',
     minutes: 3,
     published: '2026-11-08',
-    revised: '2026-11-08',
+    revised: '2026-11-13',
     cover: { src: '/photos/herbs.jpg', alt: 'Kerala herbs on linen', position: '50% 50%' },
     answer: 'AVVVS Ayur Speciality Clinic is on the 3rd floor of Kaloor Central, Annie Hall Road, directly opposite Kozhikode Railway Station, Kozhikode 673002. Call +91 99469 29448 or +91 80892 02092 for directions.',
     blocks: [
@@ -147,9 +147,9 @@ export const POSTS: Post[] = [
       { t: 'h2', text: 'The address' },
       { t: 'p', text: `${CLINIC.name}, ${CLINIC.address.lines.join(', ')}.` },
       { t: 'h2', text: 'Coming by train' },
-      { t: 'p', text: 'Leave Kozhikode Railway Station on the Annie Hall Road side and cross to Kaloor Central, opposite. The clinic is on the 3rd floor.' },
+      { t: 'p', text: 'After exiting Kozhikode Railway Station on the Annie Hall Road side, cross the road to Kaloor Central, the building marked by the Neelagiri Heritage hotel sign. The clinic is located on the 3rd floor and is easily accessible by lift.' },
       { t: 'h2', text: 'Coming from out of town' },
-      { t: 'p', text: 'Many therapies are given as a course over several days. Being next to the station means patients from across Malabar can travel in for their sittings without driving into the city centre. Tell the clinic where you are travelling from when you book, and they can help you plan your visits.' },
+      { t: 'p', text: 'Many therapies are provided over several days. Located opposite Kozhikode Railway Station, the clinic is easily accessible to patients from across Malabar. Our in-house hotel, Neelagiri Heritage, on the first and second floors of the same building, offers convenient accommodation for those who wish to stay during their treatment. Let us know where you are travelling from when booking, and we can help plan your visits.' },
       { t: 'note', h: 'Lost?', text: `Call ${CLINIC.phones[0]} or ${CLINIC.phones[1]} and the clinic will guide you in.` },
     ],
     faq: [

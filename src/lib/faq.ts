@@ -9,7 +9,7 @@ export const HOME_FAQ: QA[] = [
   },
   {
     q: 'Where can I get Ayurvedic treatment in Calicut (Kozhikode)?',
-    a: 'AVVVS Ayur Speciality Clinic offers Ayurvedic consultations, speciality clinics and Kerala Panchakarma therapies in Kozhikode (Calicut), directly opposite Kozhikode Railway Station on Annie Hall Road. It is the clinic of Arya Vaidya Vilasini Vaidya Sala, an Ayurveda institution in Kozhikode since 1921.',
+    a: 'AVVVS Ayur Speciality Clinic offers Ayurvedic consultations, speciality clinics and Kerala Panchakarma therapies in Kozhikode (Calicut), directly opposite Kozhikode Railway Station on Annie Hall Road. The clinic is part of Arya Vaidya Vilasini Vaidya Sala, an Ayurveda institution based in Kozhikode since 1921.',
   },
   {
     q: 'What does AVVVS Ayur Speciality Clinic treat?',
@@ -17,7 +17,7 @@ export const HOME_FAQ: QA[] = [
   },
   {
     q: 'Which Kerala Panchakarma therapies are available?',
-    a: 'Pizhichil, Shirodhara, Abhyanga, Elakizhi and Njavarakizhi, with Udwarthana in the obesity programme and specialised treatments for rejuvenation and healthy ageing. The doctor chooses therapies after a consultation.',
+    a: 'Abhyanga, Podikizhi, Elakizhi, Njavarakizhi, Shirodhara, Pizhichil and Udwarthana, with specialised treatments for rejuvenation and healthy ageing. The doctor chooses the appropriate therapies after a consultation.',
   },
   {
     q: 'Who runs the clinic?',
@@ -25,7 +25,7 @@ export const HOME_FAQ: QA[] = [
   },
   {
     q: 'Does the clinic combine Ayurveda with modern medicine?',
-    a: 'Yes, where it helps. The Pain Management Clinic combines Ayurvedic therapies with modern medical care under Dr. Ranjith Kumar (BAMS, MBBS, DA, MD), and the Obesity and Lifestyle Management Clinic uses modern body-contouring technologies alongside Udwarthana.',
+    a: 'Yes, where it helps. The Pain Management Clinic combines Ayurvedic therapies with modern medical care under Dr. Ranjith Kumar (BAMS, MBBS, DA, MD), and the Obesity and Lifestyle Management Clinic uses modern body-contouring technologies like cryolipolysis alongside Udwarthana.',
   },
   {
     q: 'Can I consult a doctor online?',

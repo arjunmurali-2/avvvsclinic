@@ -13,9 +13,9 @@ export const metadata: Metadata = {
 };
 
 const WAYS = [
-  { h: 'By train', p: 'Leave Kozhikode Railway Station on the Annie Hall Road side. Kaloor Central is directly across the road; the clinic is on the third floor.' },
-  { h: 'By road', p: 'Ask for Kaloor Central on Annie Hall Road, opposite the railway station. Any auto or taxi in the city knows the station.' },
-  { h: 'From further away', p: 'Many therapies are a course of sittings over several days. Tell the clinic where you are travelling from when you book, and they will help you plan your visits.' },
+  { h: 'By train', p: 'After exiting Kozhikode Railway Station on the Annie Hall Road side, cross the road to Kaloor Central, the building marked by the Neelagiri Heritage hotel sign. The clinic is located on the 3rd floor and is easily accessible by lift.' },
+  { h: 'By road', p: 'Ask for the Neelagiri Heritage hotel in the Kaloor Central building on Annie Hall Road, opposite the railway station. Any auto or taxi in the city knows the station.' },
+  { h: 'From further away', p: 'Many therapies are provided over several days. Located opposite Kozhikode Railway Station, the clinic is easily accessible to patients from across Malabar. Our in-house hotel, Neelagiri Heritage, on the first and second floors of the same building, offers convenient accommodation for those who wish to stay during their treatment. Let us know where you are travelling from when booking, and we can help plan your visits.' },
 ];
 
 export default function VisitPage() {

@@ -103,7 +103,7 @@ export function therapyLd(t: Therapy) {
   return {
     '@context': 'https://schema.org', '@type': 'MedicalTherapy', '@id': therapyId(t.slug), name: t.name,
     ...(t.ml ? { alternateName: t.ml } : {}), description: `${t.what}${t.how ? ` ${t.how}` : ''}`, url: abs(`/therapies/${t.slug}`),
-    image: imageUrl(t.img), relevantSpecialty: 'Ayurveda',
+    ...(t.img ? { image: imageUrl(t.img) } : {}), relevantSpecialty: 'Ayurveda',
     provider: { '@id': ID.clinic },
     ...(t.clinics?.length ? { isRelatedTo: t.clinics.map((c) => ({ '@id': `${abs(`/clinics/${c}`)}#clinic` })) } : {}),
   };

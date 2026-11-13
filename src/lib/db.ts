@@ -196,6 +196,16 @@ export function ensureSchema() {
       }
       await q`INSERT INTO clinic_meta (key, value) VALUES ('doctors_seeded', now()::text) ON CONFLICT (key) DO NOTHING`;
     }
+    // 2026-11-13: the clinic corrected two doctors' details. Applied once, and only to a row still
+    // exactly as it was seeded, so nothing changed in the admin is overwritten.
+    const rev = await q`SELECT 1 FROM clinic_meta WHERE key = 'doctors_rev_2026_11_13'`;
+    if (!rev.length) {
+      await q`UPDATE clinic_doctors SET quals = ${['BAMS', 'FMC', 'PGDDF']}, role = 'Medical Director, AVVVS', updated_at = now()
+        WHERE slug = 'reeja-manoj' AND quals = ${['BAMS', 'FMC']} AND role = ''`;
+      await q`UPDATE clinic_doctors SET quals = ${['BAMS', 'MPH']}, updated_at = now()
+        WHERE slug = 'rekha-deepak' AND quals = ${['BAMS']}`;
+      await q`INSERT INTO clinic_meta (key, value) VALUES ('doctors_rev_2026_11_13', now()::text) ON CONFLICT (key) DO NOTHING`;
+    }
   })().catch((e) => { ready = null; throw e; });
   return ready;
 }
