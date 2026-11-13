@@ -19,3 +19,7 @@ rooms, staff or patients, and must not be captioned as if they do. Replace with 
 
 From `Images for Clinic`, converted to JPEG: abhyanga-massage.jpg, headache.jpg, infertility.jpg, lifestyle.jpg,
 njavara.jpg, udwarthana.jpg, and the six doctor portraits in `public/doctors/`.
+
+## Supplied by the clinic (2026-11-13)
+
+pain.jpg: a doctor's hands examining a patient's lower back, for the Pain Management Clinic. Illustrative.

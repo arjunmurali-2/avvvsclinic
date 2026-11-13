@@ -78,7 +78,7 @@ export const CLINICS: Clinic[] = [
       { h: 'Mobility', p: 'Care aimed at moving more freely and getting back to everyday activities.' },
     ],
     therapies: ['pizhichil', 'abhyanga', 'elakizhi', 'njavarakizhi', 'dhanyamla-dhara', 'lepana'],
-    image: { src: '/photos/pulse.jpg', alt: 'A doctor reading a patient’s pulse at the wrist', position: '55% 50%' },
+    image: { src: '/photos/pain.jpg', alt: 'A doctor’s hands examining a patient’s lower back', position: '45% 45%' },
     lead: 'Under the guidance of Dr. Ranjith Kumar, BAMS, MBBS, DA, MD',
     faq: [
       { q: 'Who leads the Pain Management Clinic?', a: 'The Pain Management Clinic is guided by Dr. Ranjith Kumar (BAMS, MBBS, DA, MD), who is qualified in both Ayurveda and modern medicine.' },

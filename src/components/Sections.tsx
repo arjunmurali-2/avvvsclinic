@@ -10,7 +10,7 @@ type Tile = { slug: string; size: 'wide' | 'half' | 'third' | 'full'; img?: stri
 
 // The clinics as photographed tiles of three sizes.
 const LAYOUT: Tile[] = [
-  { slug: 'pain-management-clinic', size: 'wide', img: '/photos/pulse.jpg', pos: '58% 50%' },
+  { slug: 'pain-management-clinic', size: 'wide', img: '/photos/pain.jpg', pos: '45% 45%' },
   { slug: 'pregnancy-postnatal-care-clinic', size: 'third', img: '/photos/mother.jpg', pos: '50% 35%' },
   { slug: 'headache-clinic', size: 'third', img: '/photos/headache.jpg', pos: '42% 40%' },
   { slug: 'obesity-lifestyle-clinic', size: 'third', img: '/photos/lifestyle.jpg', pos: '30% 50%' },
